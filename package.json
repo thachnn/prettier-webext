@@ -30,5 +30,10 @@
     "@vitejs/plugin-vue": "^5.2.3",
     "chrome-types": ">=0.0.8",
     "vite": "^6.3.2"
+  },
+  "resolutions": {
+    "vue/**/@babel/parser": "file:./.yarn/packages/babel-parser-7.27.1.tgz",
+    "vite/**/fdir": "file:./.yarn/packages/fdir-6.4.4.tgz",
+    "**/source-map-js": "file:./.yarn/packages/source-map-js-1.2.1.tgz"
   }
 }
