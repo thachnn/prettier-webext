@@ -1,28 +1,25 @@
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
-const stats = () => ({
+const displayModules = () => ({
   name: 'display-modules',
-  load: { order: 'pre', handler: (id) => console.log('\t', id) },
+  apply: 'build',
+  enforce: 'pre',
+  load: (id) => console.log('\r', id),
 });
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './',
+  base: '',
   mode: 'production',
   esbuild: { minifyWhitespace: false, minifyIdentifiers: false },
   build: {
     modulePreload: { polyfill: false },
     rollupOptions: {
-      //logLevel: 'debug',
-      output: {
-        generatedCode: 'es2015',
-        interop: 'esModule',
-        manualChunks: (id) => (/\bnode_modules[\\\/]/.test(id) ? 'vendor' : null),
-      },
+      output: { generatedCode: 'es2015', interop: 'esModule' },
     },
     commonjsOptions: { sourceMap: false, esmExternals: true },
   },
   server: { port: 8080, open: false },
-  plugins: [vue(), stats()],
+  plugins: [splitVendorChunkPlugin(), vue(), displayModules()],
 });
