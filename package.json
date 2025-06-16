@@ -15,9 +15,12 @@
     "dev": "node node_modules/vite/bin/vite.js",
     "build": "node node_modules/vite/bin/vite.js build",
     "preview": "node node_modules/vite/bin/vite.js preview",
-    "clean": "git clean -fdx dist node_modules/.vite* node_modules/.cache",
+    "clean": "git clean -fdx dist node_modules/.vite-temp node_modules/.cache",
     "test": "node node_modules/prettier/bin/prettier.cjs -c ."
   },
+  "workspaces": [
+    "packages/vite-plugin-copy"
+  ],
   "dependencies": {
     "prettier": "^3.4.2",
     "prismjs": "^1.29.0",
@@ -29,7 +32,7 @@
     "chrome-types": ">=0.0.8",
     "vite": "^6.3.2"
   },
-  "packageManager": "yarn@3.3.1",
+  "packageManager": "yarn@3.2.3",
   "resolutions": {
     "@babel/parser/@babel/types": "link:./.yarn/empty-package",
     "fsevents/node-gyp": "link:./.yarn/empty-package",

@@ -1,0 +1,34 @@
+{
+  "name": "vite-plugin-copy",
+  "version": "1.0.0",
+  "description": "Vite plugin to copy files during build",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thachnn/prettier-webext.git",
+    "directory": "packages/vite-plugin-copy"
+  },
+  "keywords": [
+    "vite",
+    "plugin",
+    "glob",
+    "copy",
+    "files"
+  ],
+  "author": "Thach Nguyen (https://github.com/thachnn)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thachnn/prettier-webext/issues"
+  },
+  "homepage": "https://github.com/thachnn/prettier-webext/blob/main/packages/vite-plugin-copy",
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "dependencies": {
+    "tinyglobby": "^0.2.10"
+  }
+}

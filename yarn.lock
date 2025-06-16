@@ -596,7 +596,7 @@ __metadata:
 
 "fdir@patch:fdir@6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch::locator=prettier-webext%40workspace%3A.":
   version: 6.4.4
-  resolution: "fdir@patch:fdir@npm%3A6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch::version=6.4.4&hash=b367ca&locator=prettier-webext%40workspace%3A."
+  resolution: "fdir@patch:fdir@npm%3A6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch::version=6.4.4&hash=c861a3&locator=prettier-webext%40workspace%3A."
   peerDependencies:
     picomatch: ^3 || ^4
   peerDependenciesMeta:
@@ -618,7 +618,7 @@ __metadata:
 
 "fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.3#~builtin<compat/fsevents>":
   version: 2.3.3
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=18f3a7"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -788,12 +788,12 @@ __metadata:
 
 "source-map-js@patch:source-map-js@1.2.1#./.yarn/patches/source-map-js-1.2.1-b9a47d7e1a.patch::locator=prettier-webext%40workspace%3A.":
   version: 1.2.1
-  resolution: "source-map-js@patch:source-map-js@npm%3A1.2.1#./.yarn/patches/source-map-js-1.2.1-b9a47d7e1a.patch::version=1.2.1&hash=2f6a75&locator=prettier-webext%40workspace%3A."
+  resolution: "source-map-js@patch:source-map-js@npm%3A1.2.1#./.yarn/patches/source-map-js-1.2.1-b9a47d7e1a.patch::version=1.2.1&hash=3f3b57&locator=prettier-webext%40workspace%3A."
   checksum: 1859aa61e908e43c66a36a4f2e142235648a22530b2f0c3fa5ab64801f6d46b606e3339c32a8cf64a86d7a0f86d8aaca57eca7d43d6bac1d468e1905e6a7b29b
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:^0.2.13":
+"tinyglobby@npm:^0.2.10, tinyglobby@npm:^0.2.13":
   version: 0.2.13
   resolution: "tinyglobby@npm:0.2.13"
   dependencies:
@@ -802,6 +802,14 @@ __metadata:
   checksum: 3a2e87a2518cb3616057b0aa58be4f17771ae78c6890556516ae1e631f8ce4cfee1ba1dcb62fcc54a64e2bdd6c3104f4f3d021e1a3e3f8fb0875bca380b913e5
   languageName: node
   linkType: hard
+
+"vite-plugin-copy@workspace:packages/vite-plugin-copy":
+  version: 0.0.0-use.local
+  resolution: "vite-plugin-copy@workspace:packages/vite-plugin-copy"
+  dependencies:
+    tinyglobby: ^0.2.10
+  languageName: unknown
+  linkType: soft
 
 "vite@npm:^6.3.2":
   version: 6.3.5
