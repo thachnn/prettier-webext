@@ -13,7 +13,7 @@ max_line_length = 100
 quote_type = single
 
 # noinspection EditorConfigValueCorrectness
-[{.idea,node_modules,dist}/**]
+[{.idea,node_modules,.yarn,dist}/**]
 end_of_line = off
 insert_final_newline = off
 trim_trailing_whitespace = false

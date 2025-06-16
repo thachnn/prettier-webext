@@ -1,0 +1,282 @@
+diff --git a/lib/quick-sort.js b/lib/quick-sort.js
+index 23f9eda57f7383b5291361e4593cf2fdef5409ba..3c7025e17ba04c9931e09976e4588016dab4300e 100644
+--- a/lib/quick-sort.js
++++ b/lib/quick-sort.js
+@@ -15,8 +15,6 @@
+ // sorting in C++. By using our own JS-implemented Quick Sort (below), we get
+ // a ~3500ms mean speed-up in `bench/bench.html`.
+ 
+-function SortTemplate(comparator) {
+-
+ /**
+  * Swap the elements indexed by `x` and `y` in the array `ary`.
+  *
+@@ -45,19 +43,23 @@ function randomIntInRange(low, high) {
+   return Math.round(low + (Math.random() * (high - low)));
+ }
+ 
++/**
++ * @param {function} comparator
++ *        Function to use to compare two items.
++ */
++function SortTemplate(comparator) {
++
+ /**
+  * The Quick Sort algorithm.
+  *
+  * @param {Array} ary
+  *        An array to sort.
+- * @param {function} comparator
+- *        Function to use to compare two items.
+  * @param {Number} p
+  *        Start index of the array
+  * @param {Number} r
+  *        End index of the array
+  */
+-function doQuickSort(ary, comparator, p, r) {
++function doQuickSort(ary, p, r) {
+   // If our lower bound is less than our upper bound, we (1) partition the
+   // array into two pieces and (2) recurse on each half. If it is not, this is
+   // the empty array and our base case.
+@@ -98,20 +100,15 @@ function doQuickSort(ary, comparator, p, r) {
+ 
+     // (2) Recurse on each half.
+ 
+-    doQuickSort(ary, comparator, p, q - 1);
+-    doQuickSort(ary, comparator, q + 1, r);
++    doQuickSort(ary, p, q - 1);
++    doQuickSort(ary, q + 1, r);
+   }
+ }
+ 
+   return doQuickSort;
+ }
+ 
+-function cloneSort(comparator) {
+-  let template = SortTemplate.toString();
+-  let templateFn = new Function(`return ${template}`)();
+-  return templateFn(comparator);
+-}
+-
++const sortCache = new WeakMap();
+ /**
+  * Sort the given array in-place with the given comparator function.
+  *
+@@ -119,14 +116,14 @@ function cloneSort(comparator) {
+  *        An array to sort.
+  * @param {function} comparator
+  *        Function to use to compare two items.
++ * @param {Number} [start]
++ *        Start index of the array
+  */
+-
+-let sortCache = new WeakMap();
+ exports.quickSort = function (ary, comparator, start = 0) {
+   let doQuickSort = sortCache.get(comparator);
+   if (doQuickSort === void 0) {
+-    doQuickSort = cloneSort(comparator);
++    doQuickSort = SortTemplate(comparator);
+     sortCache.set(comparator, doQuickSort);
+   }
+-  doQuickSort(ary, comparator, start, ary.length - 1);
++  doQuickSort(ary, start, ary.length - 1);
+ };
+diff --git a/lib/source-map-consumer.js b/lib/source-map-consumer.js
+index ee66114636c1e3f1b455457ad9e91b0eeeb2d360..a825c047a64d0aca08b261b05b13bb2246e89e1b 100644
+--- a/lib/source-map-consumer.js
++++ b/lib/source-map-consumer.js
+@@ -151,9 +151,8 @@ SourceMapConsumer.prototype.eachMapping =
+     for (var i = 0, n = mappings.length; i < n; i++) {
+       var mapping = mappings[i];
+       var source = mapping.source === null ? null : sources.at(mapping.source);
+-      if(source !== null) {
++      if (source !== null)
+         source = util.computeSourceURL(sourceRoot, source, sourceMapURL);
+-      }
+       boundCallback({
+         source: source,
+         generatedLine: mapping.generatedLine,
+@@ -467,19 +466,13 @@ function Mapping() {
+   this.name = null;
+ }
+ 
+-/**
+- * Parse the mappings in a string in to a data structure which we can easily
+- * query (the ordered arrays in the `this.__generatedMappings` and
+- * `this.__originalMappings` properties).
+- */
+-
+ const compareGenerated = util.compareByGeneratedPositionsDeflatedNoLine;
+ function sortGenerated(array, start) {
+   let l = array.length;
+-  let n = array.length - start;
+-  if (n <= 1) {
++  let n = l - start;
++  if (n <= 1)
+     return;
+-  } else if (n == 2) {
++  if (n == 2) {
+     let a = array[start];
+     let b = array[start + 1];
+     if (compareGenerated(a, b) > 0) {
+@@ -502,6 +495,12 @@ function sortGenerated(array, start) {
+     quickSort(array, compareGenerated, start);
+   }
+ }
++
++/**
++ * Parse the mappings in a string in to a data structure which we can easily
++ * query (the ordered arrays in the `this.__generatedMappings` and
++ * `this.__originalMappings` properties).
++ */
+ BasicSourceMapConsumer.prototype._parseMappings =
+   function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
+     var generatedLine = 1;
+@@ -601,12 +600,12 @@ BasicSourceMapConsumer.prototype._parseMappings =
+     sortGenerated(generatedMappings, subarrayStart);
+     this.__generatedMappings = generatedMappings;
+ 
+-    for (var i = 0; i < originalMappings.length; i++) {
++    for (var i = 0, l = originalMappings.length; i < l; i++) {
+       if (originalMappings[i] != null) {
+         quickSort(originalMappings[i], util.compareByOriginalPositionsNoSource);
+       }
+     }
+-    this.__originalMappings = [].concat(...originalMappings);
++    this.__originalMappings = [].concat.apply([], originalMappings);
+   };
+ 
+ /**
+@@ -1144,9 +1143,8 @@ IndexedSourceMapConsumer.prototype._parseMappings =
+         var mapping = sectionMappings[j];
+ 
+         var source = section.consumer._sources.at(mapping.source);
+-        if(source !== null) {
++        if (source !== null)
+           source = util.computeSourceURL(section.consumer.sourceRoot, source, this._sourceMapURL);
+-        }
+         this._sources.add(source);
+         source = this._sources.indexOf(source);
+ 
+diff --git a/lib/source-map-generator.js b/lib/source-map-generator.js
+index bab04ff85b38eb50f942fb7ba84dd46dfe1f00c6..e6b0d7e2bc73ecd271fa58f709cebeafff747d13 100644
+--- a/lib/source-map-generator.js
++++ b/lib/source-map-generator.js
+@@ -42,7 +42,7 @@ SourceMapGenerator.prototype._version = 3;
+ SourceMapGenerator.fromSourceMap =
+   function SourceMapGenerator_fromSourceMap(aSourceMapConsumer, generatorOps) {
+     var sourceRoot = aSourceMapConsumer.sourceRoot;
+-    var generator = new SourceMapGenerator(Object.assign(generatorOps || {}, {
++    var generator = new SourceMapGenerator(Object.assign({}, generatorOps, {
+       file: aSourceMapConsumer.file,
+       sourceRoot: sourceRoot
+     }));
+@@ -276,18 +276,18 @@ SourceMapGenerator.prototype._validateMapping =
+     // specific error message to try to guide them the right way.
+     // For example: https://github.com/Polymer/polymer-bundler/pull/519
+     if (aOriginal && typeof aOriginal.line !== 'number' && typeof aOriginal.column !== 'number') {
+-      var message = 'original.line and original.column are not numbers -- you probably meant to omit ' +
+-      'the original mapping entirely and only map the generated position. If so, pass ' +
+-      'null for the original mapping instead of an object with empty or null values.'
++      var message =
++        'original.line and original.column are not numbers -- you probably meant to omit ' +
++        'the original mapping entirely and only map the generated position. If so, pass ' +
++        'null for the original mapping instead of an object with empty or null values.'
+ 
+       if (this._ignoreInvalidMapping) {
+         if (typeof console !== 'undefined' && console.warn) {
+           console.warn(message);
+         }
+         return false;
+-      } else {
+-        throw new Error(message);
+       }
++      throw new Error(message);
+     }
+ 
+     if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
+@@ -305,7 +305,7 @@ SourceMapGenerator.prototype._validateMapping =
+       return;
+     }
+     else {
+-      var message = 'Invalid mapping: ' + JSON.stringify({
++      message = 'Invalid mapping: ' + JSON.stringify({
+         generated: aGenerated,
+         source: aSource,
+         original: aOriginal,
+@@ -317,9 +317,8 @@ SourceMapGenerator.prototype._validateMapping =
+           console.warn(message);
+         }
+         return false;
+-      } else {
+-        throw new Error(message)
+       }
++      throw new Error(message)
+     }
+   };
+ 
+diff --git a/lib/util.js b/lib/util.js
+index 430e2d0ff0b2f2a084d00fbfbcf9a229d0a7bfff..08fb661e25c724b6440fc94ca32fe69e4a8d453f 100644
+--- a/lib/util.js
++++ b/lib/util.js
+@@ -79,12 +79,13 @@ function lruMemoize(f) {
+   var cache = [];
+ 
+   return function(input) {
+-    for (var i = 0; i < cache.length; i++) {
+-      if (cache[i].input === input) {
+-        var temp = cache[0];
+-        cache[0] = cache[i];
+-        cache[i] = temp;
+-        return cache[0].result;
++    for (var temp, i = 0, l = cache.length; i < l; i++) {
++      if ((temp = cache[i]).input === input) {
++        if (i > 0) {
++          cache[i] = cache[0];
++          cache[0] = temp;
++        }
++        return temp.result;
+       }
+     }
+ 
+@@ -125,22 +126,17 @@ var normalize = lruMemoize(function normalize(aPath) {
+   }
+   var isAbsolute = exports.isAbsolute(path);
+   // Split the path into parts between `/` characters. This is much faster than
+-  // using `.split(/\/+/g)`.
++  // using `.split(/\/+/)`.
+   var parts = [];
+-  var start = 0;
+-  var i = 0;
+-  while (true) {
+-    start = i;
+-    i = path.indexOf("/", start);
+-    if (i === -1) {
++  for (var start, p = 0, l = path.length; ; ) {
++    start = p;
++    p = path.indexOf("/", start);
++    if (p < 0) {
+       parts.push(path.slice(start));
+       break;
+-    } else {
+-      parts.push(path.slice(start, i));
+-      while (i < path.length && path[i] === "/") {
+-        i++;
+-      }
+     }
++    parts.push(path.slice(start, p));
++    while (++p < l && path[p] === "/") {}
+   }
+ 
+   for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
+@@ -386,9 +382,7 @@ function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
+ exports.compareByOriginalPositions = compareByOriginalPositions;
+ 
+ function compareByOriginalPositionsNoSource(mappingA, mappingB, onlyCompareOriginal) {
+-  var cmp
+-
+-  cmp = mappingA.originalLine - mappingB.originalLine;
++  var cmp = mappingA.originalLine - mappingB.originalLine;
+   if (cmp !== 0) {
+     return cmp;
+   }

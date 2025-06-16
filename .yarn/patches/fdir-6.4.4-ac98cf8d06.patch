@@ -1,0 +1,379 @@
+diff --git a/dist/api/async.js b/dist/api/async.js
+index efc6649cb04e4bdc979ad297b37c095b99375566..02510679cb6b0a9a875c356c84dea2ef66ccf145 100644
+--- a/dist/api/async.js
++++ b/dist/api/async.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.callback = exports.promise = void 0;
+ const walker_1 = require("./walker");
+ function promise(root, options) {
+     return new Promise((resolve, reject) => {
+diff --git a/dist/api/counter.js b/dist/api/counter.js
+index 685cb270b73e5a9d0852d2156e85df4a3f7ad956..b423dcb1f8cc529147ce13126d1cd3ca8afb49de 100644
+--- a/dist/api/counter.js
++++ b/dist/api/counter.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.Counter = void 0;
+ class Counter {
+     _files = 0;
+     _directories = 0;
+diff --git a/dist/api/functions/get-array.js b/dist/api/functions/get-array.js
+index 1e02308dfa6f2f1687da0f04dfcb27926f191961..6c5aa3bb00248f362b7e37009690a064c5665b76 100644
+--- a/dist/api/functions/get-array.js
++++ b/dist/api/functions/get-array.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.build = void 0;
+ const getArray = (paths) => {
+     return paths;
+ };
+diff --git a/dist/api/functions/group-files.js b/dist/api/functions/group-files.js
+index 4ccaa1a481156bc42dce965bef14c67783cc7df8..a0a057efdbc3d537e9e51cb776105878f3736ef9 100644
+--- a/dist/api/functions/group-files.js
++++ b/dist/api/functions/group-files.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.build = void 0;
+ const groupFiles = (groups, directory, files) => {
+     groups.push({ directory, files, dir: directory });
+ };
+diff --git a/dist/api/functions/invoke-callback.js b/dist/api/functions/invoke-callback.js
+index ed59ca2da78986d3039747d128e1051ba8f00cc8..dfe15508baf15aefe75569b5acc060c0414fc375 100644
+--- a/dist/api/functions/invoke-callback.js
++++ b/dist/api/functions/invoke-callback.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.build = void 0;
+ const onlyCountsSync = (state) => {
+     return state.counts;
+ };
+diff --git a/dist/api/functions/is-recursive-symlink.js b/dist/api/functions/is-recursive-symlink.js
+index 54ed388815ebfac5cc51168f3c80234c20eeddfa..f0047c9334435c5f1fd086759bb3da8401752521 100644
+--- a/dist/api/functions/is-recursive-symlink.js
++++ b/dist/api/functions/is-recursive-symlink.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.isRecursive = exports.isRecursiveAsync = void 0;
+ const path_1 = require("path");
+ const fs_1 = require("fs");
+ const isRecursiveAsync = (state, path, resolved, callback) => {
+diff --git a/dist/api/functions/join-path.js b/dist/api/functions/join-path.js
+index e84faf617734e3a4473774c7109906301b5ee18b..5bfe590f32524c4af2477e6a043befa9d71c2b07 100644
+--- a/dist/api/functions/join-path.js
++++ b/dist/api/functions/join-path.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.build = exports.joinDirectoryPath = exports.joinPathWithBasePath = void 0;
+ const path_1 = require("path");
+ const utils_1 = require("../../utils");
+ function joinPathWithBasePath(filename, directoryPath) {
+diff --git a/dist/api/functions/push-directory.js b/dist/api/functions/push-directory.js
+index 6858cb6253201769561a4057868b7750e70a6dc2..fa0f190d0a5c294c76f12f7a24e6c505bc3a12ba 100644
+--- a/dist/api/functions/push-directory.js
++++ b/dist/api/functions/push-directory.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.build = void 0;
+ function pushDirectoryWithRelativePath(root) {
+     return function (directoryPath, paths) {
+         paths.push(directoryPath.substring(root.length) || ".");
+diff --git a/dist/api/functions/push-file.js b/dist/api/functions/push-file.js
+index 88843952946ad2f409e8c8771d05f76d06058298..5cb9001f0b32ae0622252dc4ce5fd19d816a26a5 100644
+--- a/dist/api/functions/push-file.js
++++ b/dist/api/functions/push-file.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.build = void 0;
+ const pushFileFilterAndCount = (filename, _paths, counts, filters) => {
+     if (filters.every((filter) => filter(filename, false)))
+         counts.files++;
+diff --git a/dist/api/functions/resolve-symlink.js b/dist/api/functions/resolve-symlink.js
+index dbf0720cd41f870effcd4cd20b5b32adaccb62c6..38413f30c1319f12f73ba112d5bbfb5d96e94e64 100644
+--- a/dist/api/functions/resolve-symlink.js
++++ b/dist/api/functions/resolve-symlink.js
+@@ -1,18 +1,14 @@
+ "use strict";
+-var __importDefault = (this && this.__importDefault) || function (mod) {
+-    return (mod && mod.__esModule) ? mod : { "default": mod };
+-};
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.build = void 0;
+-const fs_1 = __importDefault(require("fs"));
++const fs_1 = require("fs");
+ const path_1 = require("path");
+ const resolveSymlinksAsync = function (path, state, callback) {
+     const { queue, options: { suppressErrors }, } = state;
+     queue.enqueue();
+-    fs_1.default.realpath(path, (error, resolvedPath) => {
++    fs_1.realpath(path, (error, resolvedPath) => {
+         if (error)
+             return queue.dequeue(suppressErrors ? null : error, state);
+-        fs_1.default.stat(resolvedPath, (error, stat) => {
++        fs_1.stat(resolvedPath, (error, stat) => {
+             if (error)
+                 return queue.dequeue(suppressErrors ? null : error, state);
+             if (stat.isDirectory() && isRecursive(path, resolvedPath, state))
+@@ -26,8 +22,8 @@ const resolveSymlinks = function (path, state, callback) {
+     const { queue, options: { suppressErrors }, } = state;
+     queue.enqueue();
+     try {
+-        const resolvedPath = fs_1.default.realpathSync(path);
+-        const stat = fs_1.default.statSync(resolvedPath);
++        const resolvedPath = fs_1.realpathSync(path);
++        const stat = fs_1.statSync(resolvedPath);
+         if (stat.isDirectory() && isRecursive(path, resolvedPath, state))
+             return;
+         callback(stat, resolvedPath);
+diff --git a/dist/api/functions/walk-directory.js b/dist/api/functions/walk-directory.js
+index 7515131e0bda9e332d2fe5bfa9a6c8cdff9e45a1..7d8c72f0047ff7ca3eb8042c5702a43cbfed7be6 100644
+--- a/dist/api/functions/walk-directory.js
++++ b/dist/api/functions/walk-directory.js
+@@ -1,10 +1,6 @@
+ "use strict";
+-var __importDefault = (this && this.__importDefault) || function (mod) {
+-    return (mod && mod.__esModule) ? mod : { "default": mod };
+-};
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.build = void 0;
+-const fs_1 = __importDefault(require("fs"));
++const fs_1 = require("fs");
+ const readdirOpts = { withFileTypes: true };
+ const walkAsync = (state, crawlPath, directoryPath, currentDepth, callback) => {
+     if (currentDepth < 0)
+@@ -14,7 +10,7 @@ const walkAsync = (state, crawlPath, directoryPath, currentDepth, callback) => {
+     state.queue.enqueue();
+     // Perf: Node >= 10 introduced withFileTypes that helps us
+     // skip an extra fs.stat call.
+-    fs_1.default.readdir(crawlPath || ".", readdirOpts, (error, entries = []) => {
++    fs_1.readdir(crawlPath || ".", readdirOpts, (error, entries = []) => {
+         callback(entries, directoryPath, currentDepth);
+         state.queue.dequeue(state.options.suppressErrors ? null : error, state);
+     });
+@@ -26,7 +22,7 @@ const walkSync = (state, crawlPath, directoryPath, currentDepth, callback) => {
+     state.counts.directories++;
+     let entries = [];
+     try {
+-        entries = fs_1.default.readdirSync(crawlPath || ".", readdirOpts);
++        entries = fs_1.readdirSync(crawlPath || ".", readdirOpts);
+     }
+     catch (e) {
+         if (!state.options.suppressErrors)
+diff --git a/dist/api/queue.js b/dist/api/queue.js
+index e959ebec356afd04258a5c57812315a3bef5679b..9306bbed645a67fafb5b9aad0268d05bb7067aaf 100644
+--- a/dist/api/queue.js
++++ b/dist/api/queue.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.Queue = void 0;
+ /**
+  * This is a custom stateless queue to track concurrent async fs calls.
+  * It increments a counter whenever a call is queued and decrements it
+diff --git a/dist/api/sync.js b/dist/api/sync.js
+index 073bc88d212bef84e34e07e16b8b690a757d4df8..f2870e219bcbe32bf4fc6759fac79c053d0c0613 100644
+--- a/dist/api/sync.js
++++ b/dist/api/sync.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.sync = void 0;
+ const walker_1 = require("./walker");
+ function sync(root, options) {
+     const walker = new walker_1.Walker(root, options);
+diff --git a/dist/api/walker.js b/dist/api/walker.js
+index 03962debd10cdeaf4adf169d599da010a4193b93..6069c839f211ee45aeb28581628549225e85b1ad 100644
+--- a/dist/api/walker.js
++++ b/dist/api/walker.js
+@@ -1,39 +1,15 @@
+ "use strict";
+-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+-    if (k2 === undefined) k2 = k;
+-    var desc = Object.getOwnPropertyDescriptor(m, k);
+-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+-      desc = { enumerable: true, get: function() { return m[k]; } };
+-    }
+-    Object.defineProperty(o, k2, desc);
+-}) : (function(o, m, k, k2) {
+-    if (k2 === undefined) k2 = k;
+-    o[k2] = m[k];
+-}));
+-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+-    Object.defineProperty(o, "default", { enumerable: true, value: v });
+-}) : function(o, v) {
+-    o["default"] = v;
+-});
+-var __importStar = (this && this.__importStar) || function (mod) {
+-    if (mod && mod.__esModule) return mod;
+-    var result = {};
+-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+-    __setModuleDefault(result, mod);
+-    return result;
+-};
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.Walker = void 0;
+ const path_1 = require("path");
+ const utils_1 = require("../utils");
+-const joinPath = __importStar(require("./functions/join-path"));
+-const pushDirectory = __importStar(require("./functions/push-directory"));
+-const pushFile = __importStar(require("./functions/push-file"));
+-const getArray = __importStar(require("./functions/get-array"));
+-const groupFiles = __importStar(require("./functions/group-files"));
+-const resolveSymlink = __importStar(require("./functions/resolve-symlink"));
+-const invokeCallback = __importStar(require("./functions/invoke-callback"));
+-const walkDirectory = __importStar(require("./functions/walk-directory"));
++const joinPath = require("./functions/join-path");
++const pushDirectory = require("./functions/push-directory");
++const pushFile = require("./functions/push-file");
++const getArray = require("./functions/get-array");
++const groupFiles = require("./functions/group-files");
++const resolveSymlink = require("./functions/resolve-symlink");
++const invokeCallback = require("./functions/invoke-callback");
++const walkDirectory = require("./functions/walk-directory");
+ const queue_1 = require("./queue");
+ const counter_1 = require("./counter");
+ class Walker {
+diff --git a/dist/builder/api-builder.js b/dist/builder/api-builder.js
+index 0538e6fabfb4961e0fcb686d12c3eac062263dbe..fec308b2424b9f0edf9a9a90729f815059f1255e 100644
+--- a/dist/builder/api-builder.js
++++ b/dist/builder/api-builder.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.APIBuilder = void 0;
+ const async_1 = require("../api/async");
+ const sync_1 = require("../api/sync");
+ class APIBuilder {
+diff --git a/dist/builder/index.js b/dist/builder/index.js
+index 7f99aece6a34863a453d4a30eb5eef079391c738..4af55e773024b789b77ef05c8a4b8ca69e3da65a 100644
+--- a/dist/builder/index.js
++++ b/dist/builder/index.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.Builder = void 0;
+ const path_1 = require("path");
+ const api_builder_1 = require("./api-builder");
+ var pm = null;
+diff --git a/dist/index.js b/dist/index.js
+index b907a8b91ca12f71e05d7cca9d56f49b65bc2116..df4b0d265cd50d2e64bda83b254e60bb8a786cb0 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1,20 +1,4 @@
+ "use strict";
+-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+-    if (k2 === undefined) k2 = k;
+-    var desc = Object.getOwnPropertyDescriptor(m, k);
+-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+-      desc = { enumerable: true, get: function() { return m[k]; } };
+-    }
+-    Object.defineProperty(o, k2, desc);
+-}) : (function(o, m, k, k2) {
+-    if (k2 === undefined) k2 = k;
+-    o[k2] = m[k];
+-}));
+-var __exportStar = (this && this.__exportStar) || function(m, exports) {
+-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+-};
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.fdir = void 0;
+ const builder_1 = require("./builder");
+ Object.defineProperty(exports, "fdir", { enumerable: true, get: function () { return builder_1.Builder; } });
+-__exportStar(require("./types"), exports);
+diff --git a/dist/optimizer.d.ts b/dist/optimizer.d.ts
+deleted file mode 100644
+index d2a33cd8bc51d8acee7a244040cf9e7d8d5c5732..0000000000000000000000000000000000000000
+--- a/dist/optimizer.d.ts
++++ /dev/null
+@@ -1,3 +0,0 @@
+-export declare function findCommonRoots(patterns: string[]): string[];
+-export declare function findDirectoryPatterns(patterns: string[]): string[];
+-export declare function findMaxDepth(patterns: string[]): number | false;
+diff --git a/dist/optimizer.js b/dist/optimizer.js
+deleted file mode 100644
+index bdea807dfea7f3698efbda6f39c0c55fd376dfed..0000000000000000000000000000000000000000
+--- a/dist/optimizer.js
++++ /dev/null
+@@ -1,54 +0,0 @@
+-"use strict";
+-var __importDefault = (this && this.__importDefault) || function (mod) {
+-    return (mod && mod.__esModule) ? mod : { "default": mod };
+-};
+-Object.defineProperty(exports, "__esModule", { value: true });
+-exports.findMaxDepth = exports.findDirectoryPatterns = exports.findCommonRoots = void 0;
+-// Glob Optimizations:
+-// 1. Find common roots and only iterate on them
+-//    For example:
+-//      1. "node_modules/**/*.ts" only requires us to search in node_modules
+-//          folder.
+-//      2. Similarly, multiple glob patterns can have common deterministic roots
+-//         The optimizer's job is to find these roots and only crawl them.
+-//      3. If any of the glob patterns have a globstar i.e. **/ in them, we
+-//         should bail out.
+-// 2. Find out if glob is requesting only directories
+-// 3. Find maximum depth requested
+-// 4. If glob contains a root that doesn't exist, bail out
+-const braces_1 = require("braces");
+-const glob_parent_1 = __importDefault(require("glob-parent"));
+-function findCommonRoots(patterns) {
+-    const allRoots = new Set();
+-    patterns = patterns.map((p) => (p.includes("{") ? (0, braces_1.expand)(p) : p)).flat();
+-    for (const pattern of patterns) {
+-        const parent = (0, glob_parent_1.default)(pattern);
+-        if (parent === ".")
+-            return [];
+-        allRoots.add(parent);
+-    }
+-    return Array.from(allRoots.values()).filter((root) => {
+-        for (const r of allRoots) {
+-            if (r === root)
+-                continue;
+-            if (root.startsWith(r))
+-                return false;
+-        }
+-        return true;
+-    });
+-}
+-exports.findCommonRoots = findCommonRoots;
+-function findDirectoryPatterns(patterns) {
+-    return patterns.filter((p) => p.endsWith("/"));
+-}
+-exports.findDirectoryPatterns = findDirectoryPatterns;
+-function findMaxDepth(patterns) {
+-    const isGlobstar = patterns.some((p) => p.includes("**/") || p.includes("/**") || p === "**");
+-    if (isGlobstar)
+-        return false;
+-    const maxDepth = patterns.reduce((depth, p) => {
+-        return Math.max(depth, p.split("/").filter(Boolean).length);
+-    }, 0);
+-    return maxDepth;
+-}
+-exports.findMaxDepth = findMaxDepth;
+diff --git a/dist/types.js b/dist/types.js
+deleted file mode 100644
+index c8ad2e549bdc6801e0d1c80b0308d4b9bd4985ce..0000000000000000000000000000000000000000
+--- a/dist/types.js
++++ /dev/null
+@@ -1,2 +0,0 @@
+-"use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
+diff --git a/dist/utils.js b/dist/utils.js
+index 5817b84479b646afde4a913b7c909dfe9b6541fa..af905184313a0663565af386e9746bf938da3a1d 100644
+--- a/dist/utils.js
++++ b/dist/utils.js
+@@ -1,6 +1,5 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.normalizePath = exports.isRootDirectory = exports.convertSlashes = exports.cleanPath = void 0;
+ const path_1 = require("path");
+ function cleanPath(path) {
+     let normalized = (0, path_1.normalize)(path);

@@ -29,9 +29,11 @@
     "chrome-types": ">=0.0.8",
     "vite": "^6.3.2"
   },
+  "packageManager": "yarn@3.3.1",
   "resolutions": {
-    "vue/**/@babel/parser": "file:./.yarn/packages/babel-parser-7.27.1.tgz",
-    "vite/**/fdir": "file:./.yarn/packages/fdir-6.4.4.tgz",
-    "**/source-map-js": "file:./.yarn/packages/source-map-js-1.2.1.tgz"
+    "@babel/parser/@babel/types": "link:./.yarn/empty-package",
+    "fsevents/node-gyp": "link:./.yarn/empty-package",
+    "fdir@^6.4.4": "patch:fdir@6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch",
+    "source-map-js": "patch:source-map-js@1.2.1#./.yarn/patches/source-map-js-1.2.1-b9a47d7e1a.patch"
   }
 }
