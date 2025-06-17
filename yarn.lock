@@ -359,13 +359,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prismjs@npm:^1.26.3":
-  version: 1.26.3
-  resolution: "@types/prismjs@npm:1.26.3"
-  checksum: c627fa9d9f4277ce413bb8347944152cddfc892702e34ff4b099dc1cf3f00c09514d36349c23529b903b0e57f3b2e0dc91ee66e98af07fbbe1e3fe8346b23370
-  languageName: node
-  linkType: hard
-
 "@vitejs/plugin-vue@npm:^5.2.3":
   version: 5.2.3
   resolution: "@vitejs/plugin-vue@npm:5.2.3"
@@ -604,13 +597,13 @@ __metadata:
 
 "fdir@patch:fdir@6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch::locator=prettier-webext%40workspace%3A.":
   version: 6.4.4
-  resolution: "fdir@patch:fdir@npm%3A6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch::version=6.4.4&hash=c861a3&locator=prettier-webext%40workspace%3A."
+  resolution: "fdir@patch:fdir@npm%3A6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch::version=6.4.4&hash=a3cf19&locator=prettier-webext%40workspace%3A."
   peerDependencies:
     picomatch: ^3 || ^4
   peerDependenciesMeta:
     picomatch:
       optional: true
-  checksum: 011040758f1a328ab46fbde8bacb870f4450d66c2f410acf29637a9523ceb7cf9a7363d56a29dedfc38a0f0920bbe859d8c5aa17cccb4af97830e4202d3a3d0e
+  checksum: 19267e50442844598937cbbc249e94d48ba84cf4a26361e6fb9a375a71820d2711061e1e6787569b451156ee04366d8039ade68a47e8c4da37690bdfda4cdc33
   languageName: node
   linkType: hard
 
@@ -630,6 +623,20 @@ __metadata:
   dependencies:
     node-gyp: latest
   conditions: os=darwin
+  languageName: node
+  linkType: hard
+
+"highlight.js@npm:11.11.1":
+  version: 11.11.1
+  resolution: "highlight.js@npm:11.11.1"
+  checksum: 841ddd329a92be123a61ef4051698f824c3575deef588fbb810bd638f1575ddc96b7bdd925b97c05a29276bb119dfcb8e5bcb0acb31c86249371bf046e131d72
+  languageName: node
+  linkType: hard
+
+"highlight.js@patch:highlight.js@11.11.1#./.yarn/patches/highlight.js-11.11.1-1afef66f5e.patch::locator=prettier-webext%40workspace%3A.":
+  version: 11.11.1
+  resolution: "highlight.js@patch:highlight.js@npm%3A11.11.1#./.yarn/patches/highlight.js-11.11.1-1afef66f5e.patch::version=11.11.1&hash=dfe57f&locator=prettier-webext%40workspace%3A."
+  checksum: 21bb0a7bec935779ef2d31966011e5d6d6defe63bf586a8d6d6181bfa640449f9467e639cbb87a5a8b198761555924382924cd0847e84bdbba2eeb6271a53ecf
   languageName: node
   linkType: hard
 
@@ -686,11 +693,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "prettier-webext@workspace:."
   dependencies:
-    "@types/prismjs": ^1.26.3
     "@vitejs/plugin-vue": ^5.2.3
     chrome-types: ">=0.0.8"
+    highlight.js: ^11.9.0
     prettier: ^3.4.2
-    prismjs: ^1.29.0
     vite: ^6.3.2
     vue: ^3.5.13
   languageName: unknown
@@ -702,13 +708,6 @@ __metadata:
   bin:
     prettier: bin/prettier.cjs
   checksum: 61e97bb8e71a95d8f9c71f1fd5229c9aaa9d1e184dedb12399f76aa802fb6fdc8954ecac9df25a7f82ee7311cf8ddbd06baf5507388fc98e5b44036cc6a88a1b
-  languageName: node
-  linkType: hard
-
-"prismjs@npm:^1.29.0":
-  version: 1.29.0
-  resolution: "prismjs@npm:1.29.0"
-  checksum: 007a8869d4456ff8049dc59404e32d5666a07d99c3b0e30a18bd3b7676dfa07d1daae9d0f407f20983865fd8da56de91d09cb08e6aa61f5bc420a27c0beeaf93
   languageName: node
   linkType: hard
 

@@ -97,7 +97,7 @@ module.exports = (patterns, options = {}) => {
       await Promise.all(collectOutDirs(copyList, opts).map((dir) => tryMakeDir(dir)));
 
       await Promise.all(
-        copyList.map((cp) => (cp.transform ? transformFile(cp) : copyFile(cp.from, cp.to))),
+        copyList.map((op) => (op.transform ? transformFile(op) : copyFile(op.from, op.to))),
       );
       opts.log(copyList.length + ' files were copied.');
     },

@@ -15,19 +15,18 @@
     "dev": "node node_modules/vite/bin/vite.js",
     "build": "node node_modules/vite/bin/vite.js build",
     "preview": "node node_modules/vite/bin/vite.js preview",
-    "clean": "git clean -fdx dist node_modules/.vite-temp node_modules/.cache",
+    "clean": "git clean -fdx dist \"node_modules/.vite*\" node_modules/.cache",
     "test": "node node_modules/prettier/bin/prettier.cjs -c ."
   },
   "workspaces": [
     "packages/vite-plugin-copy"
   ],
   "dependencies": {
+    "highlight.js": "^11.9.0",
     "prettier": "^3.4.2",
-    "prismjs": "^1.29.0",
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@types/prismjs": "^1.26.3",
     "@vitejs/plugin-vue": "^5.2.3",
     "chrome-types": ">=0.0.8",
     "vite": "^6.3.2"
@@ -37,6 +36,7 @@
     "@babel/parser/@babel/types": "link:./.yarn/empty-package",
     "fsevents/node-gyp": "link:./.yarn/empty-package",
     "fdir@^6.4.4": "patch:fdir@6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch",
+    "highlight.js@^11.9.0": "patch:highlight.js@11.11.1#./.yarn/patches/highlight.js-11.11.1-1afef66f5e.patch",
     "source-map-js": "patch:source-map-js@1.2.1#./.yarn/patches/source-map-js-1.2.1-b9a47d7e1a.patch"
   }
 }

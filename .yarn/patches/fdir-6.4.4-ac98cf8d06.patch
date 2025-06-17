@@ -1,16 +1,27 @@
 diff --git a/dist/api/async.js b/dist/api/async.js
-index efc6649cb04e4bdc979ad297b37c095b99375566..02510679cb6b0a9a875c356c84dea2ef66ccf145 100644
+index efc6649cb04e4bdc979ad297b37c095b99375566..fd9ae60bd6614053b7627136ba7e3839bec3c85d 100644
 --- a/dist/api/async.js
 +++ b/dist/api/async.js
-@@ -1,6 +1,5 @@
+@@ -1,7 +1,6 @@
  "use strict";
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.callback = exports.promise = void 0;
- const walker_1 = require("./walker");
+-const walker_1 = require("./walker");
++const { Walker } = require("./walker");
  function promise(root, options) {
      return new Promise((resolve, reject) => {
+         callback(root, options, (err, output) => {
+@@ -13,7 +12,7 @@ function promise(root, options) {
+ }
+ exports.promise = promise;
+ function callback(root, options, callback) {
+-    let walker = new walker_1.Walker(root, options, callback);
++    let walker = new Walker(root, options, callback);
+     walker.start();
+ }
+ exports.callback = callback;
 diff --git a/dist/api/counter.js b/dist/api/counter.js
-index 685cb270b73e5a9d0852d2156e85df4a3f7ad956..b423dcb1f8cc529147ce13126d1cd3ca8afb49de 100644
+index 685cb270b73e5a9d0852d2156e85df4a3f7ad956..306705b2b6d541556d7edbedfb60e28a688c603a 100644
 --- a/dist/api/counter.js
 +++ b/dist/api/counter.js
 @@ -1,6 +1,5 @@
@@ -21,7 +32,7 @@ index 685cb270b73e5a9d0852d2156e85df4a3f7ad956..b423dcb1f8cc529147ce13126d1cd3ca
      _files = 0;
      _directories = 0;
 diff --git a/dist/api/functions/get-array.js b/dist/api/functions/get-array.js
-index 1e02308dfa6f2f1687da0f04dfcb27926f191961..6c5aa3bb00248f362b7e37009690a064c5665b76 100644
+index 1e02308dfa6f2f1687da0f04dfcb27926f191961..eae42b7b7eb1dc9a5f1315b8263406fcdbcc5dba 100644
 --- a/dist/api/functions/get-array.js
 +++ b/dist/api/functions/get-array.js
 @@ -1,6 +1,5 @@
@@ -32,7 +43,7 @@ index 1e02308dfa6f2f1687da0f04dfcb27926f191961..6c5aa3bb00248f362b7e37009690a064
      return paths;
  };
 diff --git a/dist/api/functions/group-files.js b/dist/api/functions/group-files.js
-index 4ccaa1a481156bc42dce965bef14c67783cc7df8..a0a057efdbc3d537e9e51cb776105878f3736ef9 100644
+index 4ccaa1a481156bc42dce965bef14c67783cc7df8..c4d013119be3c85f731fcf52758b5d9f91ec6b74 100644
 --- a/dist/api/functions/group-files.js
 +++ b/dist/api/functions/group-files.js
 @@ -1,6 +1,5 @@
@@ -43,7 +54,7 @@ index 4ccaa1a481156bc42dce965bef14c67783cc7df8..a0a057efdbc3d537e9e51cb776105878
      groups.push({ directory, files, dir: directory });
  };
 diff --git a/dist/api/functions/invoke-callback.js b/dist/api/functions/invoke-callback.js
-index ed59ca2da78986d3039747d128e1051ba8f00cc8..dfe15508baf15aefe75569b5acc060c0414fc375 100644
+index ed59ca2da78986d3039747d128e1051ba8f00cc8..f0b538a143ca30f09c6613e2e522f51821fac906 100644
 --- a/dist/api/functions/invoke-callback.js
 +++ b/dist/api/functions/invoke-callback.js
 @@ -1,6 +1,5 @@
@@ -53,30 +64,84 @@ index ed59ca2da78986d3039747d128e1051ba8f00cc8..dfe15508baf15aefe75569b5acc060c0
  const onlyCountsSync = (state) => {
      return state.counts;
  };
+diff --git a/dist/api/functions/is-recursive-symlink.d.ts b/dist/api/functions/is-recursive-symlink.d.ts
+deleted file mode 100644
+index e84f63fbb66e036df7cfe07a23b8701f86d943e6..0000000000000000000000000000000000000000
+--- a/dist/api/functions/is-recursive-symlink.d.ts
++++ /dev/null
+@@ -1,5 +0,0 @@
+-import { WalkerState } from "../../types";
+-type IsRecursiveSymlinkFunction = (state: WalkerState, path: string, resolved: string, callback: (result: boolean) => void) => void;
+-export declare const isRecursiveAsync: IsRecursiveSymlinkFunction;
+-export declare function isRecursive(state: WalkerState, path: string, resolved: string): boolean;
+-export {};
 diff --git a/dist/api/functions/is-recursive-symlink.js b/dist/api/functions/is-recursive-symlink.js
-index 54ed388815ebfac5cc51168f3c80234c20eeddfa..f0047c9334435c5f1fd086759bb3da8401752521 100644
+deleted file mode 100644
+index 54ed388815ebfac5cc51168f3c80234c20eeddfa..0000000000000000000000000000000000000000
 --- a/dist/api/functions/is-recursive-symlink.js
-+++ b/dist/api/functions/is-recursive-symlink.js
-@@ -1,6 +1,5 @@
- "use strict";
- Object.defineProperty(exports, "__esModule", { value: true });
++++ /dev/null
+@@ -1,35 +0,0 @@
+-"use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
 -exports.isRecursive = exports.isRecursiveAsync = void 0;
- const path_1 = require("path");
- const fs_1 = require("fs");
- const isRecursiveAsync = (state, path, resolved, callback) => {
+-const path_1 = require("path");
+-const fs_1 = require("fs");
+-const isRecursiveAsync = (state, path, resolved, callback) => {
+-    if (state.options.useRealPaths)
+-        return callback(state.visited.has(resolved + state.options.pathSeparator));
+-    let parent = (0, path_1.dirname)(path);
+-    if (parent + state.options.pathSeparator === state.root || parent === path)
+-        return callback(false);
+-    if (state.symlinks.get(parent) === resolved)
+-        return callback(true);
+-    (0, fs_1.readlink)(parent, (error, resolvedParent) => {
+-        if (error)
+-            return (0, exports.isRecursiveAsync)(state, parent, resolved, callback);
+-        callback(resolvedParent === resolved);
+-    });
+-};
+-exports.isRecursiveAsync = isRecursiveAsync;
+-function isRecursive(state, path, resolved) {
+-    if (state.options.useRealPaths)
+-        return state.visited.has(resolved + state.options.pathSeparator);
+-    let parent = (0, path_1.dirname)(path);
+-    if (parent + state.options.pathSeparator === state.root || parent === path)
+-        return false;
+-    try {
+-        const resolvedParent = state.symlinks.get(parent) || (0, fs_1.readlinkSync)(parent);
+-        return resolvedParent === resolved;
+-    }
+-    catch (e) {
+-        return isRecursive(state, parent, resolved);
+-    }
+-}
+-exports.isRecursive = isRecursive;
 diff --git a/dist/api/functions/join-path.js b/dist/api/functions/join-path.js
-index e84faf617734e3a4473774c7109906301b5ee18b..5bfe590f32524c4af2477e6a043befa9d71c2b07 100644
+index e84faf617734e3a4473774c7109906301b5ee18b..3b31b020d22fc14045772cc3e0d5abb394e19e83 100644
 --- a/dist/api/functions/join-path.js
 +++ b/dist/api/functions/join-path.js
-@@ -1,6 +1,5 @@
+@@ -1,8 +1,7 @@
  "use strict";
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.build = exports.joinDirectoryPath = exports.joinPathWithBasePath = void 0;
- const path_1 = require("path");
- const utils_1 = require("../../utils");
+-const path_1 = require("path");
+-const utils_1 = require("../../utils");
++const { relative } = require("path");
++const { convertSlashes } = require("../../utils");
  function joinPathWithBasePath(filename, directoryPath) {
+     return directoryPath + filename;
+ }
+@@ -13,7 +12,7 @@ function joinPathWithRelativePath(root, options) {
+         if (sameRoot)
+             return directoryPath.replace(root, "") + filename;
+         else
+-            return ((0, utils_1.convertSlashes)((0, path_1.relative)(root, directoryPath), options.pathSeparator) +
++            return (convertSlashes(relative(root, directoryPath), options.pathSeparator) +
+                 options.pathSeparator +
+                 filename);
+     };
 diff --git a/dist/api/functions/push-directory.js b/dist/api/functions/push-directory.js
-index 6858cb6253201769561a4057868b7750e70a6dc2..fa0f190d0a5c294c76f12f7a24e6c505bc3a12ba 100644
+index 6858cb6253201769561a4057868b7750e70a6dc2..ab0779ea247c9d1b305a0084d5361a19873175af 100644
 --- a/dist/api/functions/push-directory.js
 +++ b/dist/api/functions/push-directory.js
 @@ -1,6 +1,5 @@
@@ -87,7 +152,7 @@ index 6858cb6253201769561a4057868b7750e70a6dc2..fa0f190d0a5c294c76f12f7a24e6c505
      return function (directoryPath, paths) {
          paths.push(directoryPath.substring(root.length) || ".");
 diff --git a/dist/api/functions/push-file.js b/dist/api/functions/push-file.js
-index 88843952946ad2f409e8c8771d05f76d06058298..5cb9001f0b32ae0622252dc4ce5fd19d816a26a5 100644
+index 88843952946ad2f409e8c8771d05f76d06058298..9a3332f642e04c4778119dd9eecc98ee5de58778 100644
 --- a/dist/api/functions/push-file.js
 +++ b/dist/api/functions/push-file.js
 @@ -1,6 +1,5 @@
@@ -98,7 +163,7 @@ index 88843952946ad2f409e8c8771d05f76d06058298..5cb9001f0b32ae0622252dc4ce5fd19d
      if (filters.every((filter) => filter(filename, false)))
          counts.files++;
 diff --git a/dist/api/functions/resolve-symlink.js b/dist/api/functions/resolve-symlink.js
-index dbf0720cd41f870effcd4cd20b5b32adaccb62c6..38413f30c1319f12f73ba112d5bbfb5d96e94e64 100644
+index dbf0720cd41f870effcd4cd20b5b32adaccb62c6..5a80ef363fc8e5d7a8492e62b55c6c1e6fefed0b 100644
 --- a/dist/api/functions/resolve-symlink.js
 +++ b/dist/api/functions/resolve-symlink.js
 @@ -1,18 +1,14 @@
@@ -109,17 +174,18 @@ index dbf0720cd41f870effcd4cd20b5b32adaccb62c6..38413f30c1319f12f73ba112d5bbfb5d
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.build = void 0;
 -const fs_1 = __importDefault(require("fs"));
-+const fs_1 = require("fs");
- const path_1 = require("path");
+-const path_1 = require("path");
++const fs = require("fs");
++const { dirname } = require("path");
  const resolveSymlinksAsync = function (path, state, callback) {
      const { queue, options: { suppressErrors }, } = state;
      queue.enqueue();
 -    fs_1.default.realpath(path, (error, resolvedPath) => {
-+    fs_1.realpath(path, (error, resolvedPath) => {
++    fs.realpath(path, (error, resolvedPath) => {
          if (error)
              return queue.dequeue(suppressErrors ? null : error, state);
 -        fs_1.default.stat(resolvedPath, (error, stat) => {
-+        fs_1.stat(resolvedPath, (error, stat) => {
++        fs.stat(resolvedPath, (error, stat) => {
              if (error)
                  return queue.dequeue(suppressErrors ? null : error, state);
              if (stat.isDirectory() && isRecursive(path, resolvedPath, state))
@@ -129,13 +195,31 @@ index dbf0720cd41f870effcd4cd20b5b32adaccb62c6..38413f30c1319f12f73ba112d5bbfb5d
      try {
 -        const resolvedPath = fs_1.default.realpathSync(path);
 -        const stat = fs_1.default.statSync(resolvedPath);
-+        const resolvedPath = fs_1.realpathSync(path);
-+        const stat = fs_1.statSync(resolvedPath);
++        const resolvedPath = fs.realpathSync(path);
++        const stat = fs.statSync(resolvedPath);
          if (stat.isDirectory() && isRecursive(path, resolvedPath, state))
              return;
          callback(stat, resolvedPath);
+@@ -46,7 +42,7 @@ exports.build = build;
+ function isRecursive(path, resolved, state) {
+     if (state.options.useRealPaths)
+         return isRecursiveUsingRealPaths(resolved, state);
+-    let parent = (0, path_1.dirname)(path);
++    let parent = dirname(path);
+     let depth = 1;
+     while (parent !== state.root && depth < 2) {
+         const resolvedPath = state.symlinks.get(parent);
+@@ -57,7 +53,7 @@ function isRecursive(path, resolved, state) {
+         if (isSameRoot)
+             depth++;
+         else
+-            parent = (0, path_1.dirname)(parent);
++            parent = dirname(parent);
+     }
+     state.symlinks.set(path, resolved);
+     return depth > 1;
 diff --git a/dist/api/functions/walk-directory.js b/dist/api/functions/walk-directory.js
-index 7515131e0bda9e332d2fe5bfa9a6c8cdff9e45a1..7d8c72f0047ff7ca3eb8042c5702a43cbfed7be6 100644
+index 7515131e0bda9e332d2fe5bfa9a6c8cdff9e45a1..05dd7523ad6fad895d3dfecfda21854dc3f42da2 100644
 --- a/dist/api/functions/walk-directory.js
 +++ b/dist/api/functions/walk-directory.js
 @@ -1,10 +1,6 @@
@@ -146,7 +230,7 @@ index 7515131e0bda9e332d2fe5bfa9a6c8cdff9e45a1..7d8c72f0047ff7ca3eb8042c5702a43c
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.build = void 0;
 -const fs_1 = __importDefault(require("fs"));
-+const fs_1 = require("fs");
++const fs = require("fs");
  const readdirOpts = { withFileTypes: true };
  const walkAsync = (state, crawlPath, directoryPath, currentDepth, callback) => {
      if (currentDepth < 0)
@@ -155,7 +239,7 @@ index 7515131e0bda9e332d2fe5bfa9a6c8cdff9e45a1..7d8c72f0047ff7ca3eb8042c5702a43c
      // Perf: Node >= 10 introduced withFileTypes that helps us
      // skip an extra fs.stat call.
 -    fs_1.default.readdir(crawlPath || ".", readdirOpts, (error, entries = []) => {
-+    fs_1.readdir(crawlPath || ".", readdirOpts, (error, entries = []) => {
++    fs.readdir(crawlPath || ".", readdirOpts, (error, entries = []) => {
          callback(entries, directoryPath, currentDepth);
          state.queue.dequeue(state.options.suppressErrors ? null : error, state);
      });
@@ -164,12 +248,12 @@ index 7515131e0bda9e332d2fe5bfa9a6c8cdff9e45a1..7d8c72f0047ff7ca3eb8042c5702a43c
      let entries = [];
      try {
 -        entries = fs_1.default.readdirSync(crawlPath || ".", readdirOpts);
-+        entries = fs_1.readdirSync(crawlPath || ".", readdirOpts);
++        entries = fs.readdirSync(crawlPath || ".", readdirOpts);
      }
      catch (e) {
          if (!state.options.suppressErrors)
 diff --git a/dist/api/queue.js b/dist/api/queue.js
-index e959ebec356afd04258a5c57812315a3bef5679b..9306bbed645a67fafb5b9aad0268d05bb7067aaf 100644
+index e959ebec356afd04258a5c57812315a3bef5679b..5187deb27de1077e2d84e96650395c40ff5d77e4 100644
 --- a/dist/api/queue.js
 +++ b/dist/api/queue.js
 @@ -1,6 +1,5 @@
@@ -180,21 +264,26 @@ index e959ebec356afd04258a5c57812315a3bef5679b..9306bbed645a67fafb5b9aad0268d05b
   * This is a custom stateless queue to track concurrent async fs calls.
   * It increments a counter whenever a call is queued and decrements it
 diff --git a/dist/api/sync.js b/dist/api/sync.js
-index 073bc88d212bef84e34e07e16b8b690a757d4df8..f2870e219bcbe32bf4fc6759fac79c053d0c0613 100644
+index 073bc88d212bef84e34e07e16b8b690a757d4df8..c542272c1de7b4194c31443a27bf847d30db8e23 100644
 --- a/dist/api/sync.js
 +++ b/dist/api/sync.js
-@@ -1,6 +1,5 @@
+@@ -1,9 +1,8 @@
  "use strict";
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.sync = void 0;
- const walker_1 = require("./walker");
+-const walker_1 = require("./walker");
++const { Walker } = require("./walker");
  function sync(root, options) {
-     const walker = new walker_1.Walker(root, options);
+-    const walker = new walker_1.Walker(root, options);
++    const walker = new Walker(root, options);
+     return walker.start();
+ }
+ exports.sync = sync;
 diff --git a/dist/api/walker.js b/dist/api/walker.js
-index 03962debd10cdeaf4adf169d599da010a4193b93..6069c839f211ee45aeb28581628549225e85b1ad 100644
+index 03962debd10cdeaf4adf169d599da010a4193b93..99e6fa423d9d75118362778e8ad2b2635de4beb8 100644
 --- a/dist/api/walker.js
 +++ b/dist/api/walker.js
-@@ -1,39 +1,15 @@
+@@ -1,41 +1,17 @@
  "use strict";
 -var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
 -    if (k2 === undefined) k2 = k;
@@ -221,8 +310,8 @@ index 03962debd10cdeaf4adf169d599da010a4193b93..6069c839f211ee45aeb2858162854922
 -};
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.Walker = void 0;
- const path_1 = require("path");
- const utils_1 = require("../utils");
+-const path_1 = require("path");
+-const utils_1 = require("../utils");
 -const joinPath = __importStar(require("./functions/join-path"));
 -const pushDirectory = __importStar(require("./functions/push-directory"));
 -const pushFile = __importStar(require("./functions/push-file"));
@@ -231,6 +320,10 @@ index 03962debd10cdeaf4adf169d599da010a4193b93..6069c839f211ee45aeb2858162854922
 -const resolveSymlink = __importStar(require("./functions/resolve-symlink"));
 -const invokeCallback = __importStar(require("./functions/invoke-callback"));
 -const walkDirectory = __importStar(require("./functions/walk-directory"));
+-const queue_1 = require("./queue");
+-const counter_1 = require("./counter");
++const { basename, dirname } = require("path");
++const { isRootDirectory, normalizePath } = require("../utils");
 +const joinPath = require("./functions/join-path");
 +const pushDirectory = require("./functions/push-directory");
 +const pushFile = require("./functions/push-file");
@@ -239,33 +332,132 @@ index 03962debd10cdeaf4adf169d599da010a4193b93..6069c839f211ee45aeb2858162854922
 +const resolveSymlink = require("./functions/resolve-symlink");
 +const invokeCallback = require("./functions/invoke-callback");
 +const walkDirectory = require("./functions/walk-directory");
- const queue_1 = require("./queue");
- const counter_1 = require("./counter");
++const { Queue } = require("./queue");
++const { Counter } = require("./counter");
  class Walker {
+     root;
+     isSynchronous;
+@@ -51,15 +27,15 @@ class Walker {
+     constructor(root, options, callback) {
+         this.isSynchronous = !callback;
+         this.callbackInvoker = invokeCallback.build(options, this.isSynchronous);
+-        this.root = (0, utils_1.normalizePath)(root, options);
++        this.root = normalizePath(root, options);
+         this.state = {
+-            root: (0, utils_1.isRootDirectory)(this.root) ? this.root : this.root.slice(0, -1),
++            root: isRootDirectory(this.root) ? this.root : this.root.slice(0, -1),
+             // Perf: we explicitly tell the compiler to optimize for String arrays
+             paths: [""].slice(0, 0),
+             groups: [],
+-            counts: new counter_1.Counter(),
++            counts: new Counter(),
+             options,
+-            queue: new queue_1.Queue((error, state) => this.callbackInvoker(state, error, callback)),
++            queue: new Queue((error, state) => this.callbackInvoker(state, error, callback)),
+             symlinks: new Map(),
+             visited: [""].slice(0, 0),
+         };
+@@ -103,7 +79,7 @@ class Walker {
+                 let path = joinPath.joinPathWithBasePath(entry.name, directoryPath);
+                 this.resolveSymlink(path, this.state, (stat, resolvedPath) => {
+                     if (stat.isDirectory()) {
+-                        resolvedPath = (0, utils_1.normalizePath)(resolvedPath, this.state.options);
++                        resolvedPath = normalizePath(resolvedPath, this.state.options);
+                         if (exclude &&
+                             exclude(entry.name, useRealPaths ? resolvedPath : path + pathSeparator))
+                             return;
+@@ -111,8 +87,8 @@ class Walker {
+                     }
+                     else {
+                         resolvedPath = useRealPaths ? resolvedPath : path;
+-                        const filename = (0, path_1.basename)(resolvedPath);
+-                        const directoryPath = (0, utils_1.normalizePath)((0, path_1.dirname)(resolvedPath), this.state.options);
++                        const filename = basename(resolvedPath);
++                        const directoryPath = normalizePath(dirname(resolvedPath), this.state.options);
+                         resolvedPath = this.joinPath(filename, directoryPath);
+                         this.pushFile(resolvedPath, files, this.state.counts, filters);
+                     }
 diff --git a/dist/builder/api-builder.js b/dist/builder/api-builder.js
-index 0538e6fabfb4961e0fcb686d12c3eac062263dbe..fec308b2424b9f0edf9a9a90729f815059f1255e 100644
+index 0538e6fabfb4961e0fcb686d12c3eac062263dbe..9d2c685d485bf6995fc486f03cd00ba4ce35eb9a 100644
 --- a/dist/builder/api-builder.js
 +++ b/dist/builder/api-builder.js
-@@ -1,6 +1,5 @@
+@@ -1,8 +1,7 @@
  "use strict";
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.APIBuilder = void 0;
- const async_1 = require("../api/async");
- const sync_1 = require("../api/sync");
+-const async_1 = require("../api/async");
+-const sync_1 = require("../api/sync");
++const { callback, promise } = require("../api/async");
++const { sync } = require("../api/sync");
  class APIBuilder {
+     root;
+     options;
+@@ -11,13 +10,13 @@ class APIBuilder {
+         this.options = options;
+     }
+     withPromise() {
+-        return (0, async_1.promise)(this.root, this.options);
++        return promise(this.root, this.options);
+     }
+     withCallback(cb) {
+-        (0, async_1.callback)(this.root, this.options, cb);
++        callback(this.root, this.options, cb);
+     }
+     sync() {
+-        return (0, sync_1.sync)(this.root, this.options);
++        return sync(this.root, this.options);
+     }
+ }
+ exports.APIBuilder = APIBuilder;
 diff --git a/dist/builder/index.js b/dist/builder/index.js
-index 7f99aece6a34863a453d4a30eb5eef079391c738..4af55e773024b789b77ef05c8a4b8ca69e3da65a 100644
+index 7f99aece6a34863a453d4a30eb5eef079391c738..2cce98cdf62d7e299e45de0d391bf2b6e18eea25 100644
 --- a/dist/builder/index.js
 +++ b/dist/builder/index.js
-@@ -1,6 +1,5 @@
+@@ -1,12 +1,11 @@
  "use strict";
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.Builder = void 0;
- const path_1 = require("path");
- const api_builder_1 = require("./api-builder");
+-const path_1 = require("path");
+-const api_builder_1 = require("./api-builder");
++const { sep } = require("path");
++const { APIBuilder } = require("./api-builder");
  var pm = null;
+ /* c8 ignore next 6 */
+ try {
+-    require.resolve("picomatch");
++    //require.resolve("picomatch");
+     pm = require("picomatch");
+ }
+ catch (_e) {
+@@ -17,7 +16,7 @@ class Builder {
+     options = {
+         maxDepth: Infinity,
+         suppressErrors: true,
+-        pathSeparator: path_1.sep,
++        pathSeparator: sep,
+         filters: [],
+     };
+     globFunction;
+@@ -93,7 +92,7 @@ class Builder {
+         return this;
+     }
+     crawl(root) {
+-        return new api_builder_1.APIBuilder(root || ".", this.options);
++        return new APIBuilder(root || ".", this.options);
+     }
+     withGlobFunction(fn) {
+         // cast this since we don't have the new type params yet
+@@ -110,7 +109,7 @@ class Builder {
+     /* c8 ignore next 4 */
+     crawlWithOptions(root, options) {
+         this.options = { ...this.options, ...options };
+-        return new api_builder_1.APIBuilder(root || ".", this.options);
++        return new APIBuilder(root || ".", this.options);
+     }
+     glob(...patterns) {
+         if (this.globFunction) {
 diff --git a/dist/index.js b/dist/index.js
-index b907a8b91ca12f71e05d7cca9d56f49b65bc2116..df4b0d265cd50d2e64bda83b254e60bb8a786cb0 100644
+index b907a8b91ca12f71e05d7cca9d56f49b65bc2116..e0439f8d3d203a6a8a330121bd22f676396f2b64 100644
 --- a/dist/index.js
 +++ b/dist/index.js
 @@ -1,20 +1,4 @@
@@ -286,9 +478,11 @@ index b907a8b91ca12f71e05d7cca9d56f49b65bc2116..df4b0d265cd50d2e64bda83b254e60bb
 -};
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.fdir = void 0;
- const builder_1 = require("./builder");
- Object.defineProperty(exports, "fdir", { enumerable: true, get: function () { return builder_1.Builder; } });
+-const builder_1 = require("./builder");
+-Object.defineProperty(exports, "fdir", { enumerable: true, get: function () { return builder_1.Builder; } });
 -__exportStar(require("./types"), exports);
++const { Builder } = require("./builder");
++Object.defineProperty(exports, "fdir", { enumerable: true, get() { return Builder; } });
 diff --git a/dist/optimizer.d.ts b/dist/optimizer.d.ts
 deleted file mode 100644
 index d2a33cd8bc51d8acee7a244040cf9e7d8d5c5732..0000000000000000000000000000000000000000
@@ -367,13 +561,31 @@ index c8ad2e549bdc6801e0d1c80b0308d4b9bd4985ce..00000000000000000000000000000000
 -"use strict";
 -Object.defineProperty(exports, "__esModule", { value: true });
 diff --git a/dist/utils.js b/dist/utils.js
-index 5817b84479b646afde4a913b7c909dfe9b6541fa..af905184313a0663565af386e9746bf938da3a1d 100644
+index 5817b84479b646afde4a913b7c909dfe9b6541fa..adb75b2acd0ea2b584c9d47a814de20b122b3f73 100644
 --- a/dist/utils.js
 +++ b/dist/utils.js
-@@ -1,6 +1,5 @@
+@@ -1,12 +1,11 @@
  "use strict";
  Object.defineProperty(exports, "__esModule", { value: true });
 -exports.normalizePath = exports.isRootDirectory = exports.convertSlashes = exports.cleanPath = void 0;
- const path_1 = require("path");
+-const path_1 = require("path");
++const { sep, normalize, resolve } = require("path");
  function cleanPath(path) {
-     let normalized = (0, path_1.normalize)(path);
+-    let normalized = (0, path_1.normalize)(path);
++    let normalized = normalize(path);
+     // we have to remove the last path separator
+     // to account for / root path
+-    if (normalized.length > 1 && normalized[normalized.length - 1] === path_1.sep)
++    if (normalized.length > 1 && normalized[normalized.length - 1] === sep)
+         normalized = normalized.substring(0, normalized.length - 1);
+     return normalized;
+ }
+@@ -25,7 +24,7 @@ function normalizePath(path, options) {
+     const pathNeedsCleaning = (process.platform === "win32" && path.includes("/")) ||
+         path.startsWith(".");
+     if (resolvePaths)
+-        path = (0, path_1.resolve)(path);
++        path = resolve(path);
+     if (normalizePath || pathNeedsCleaning)
+         path = cleanPath(path);
+     if (path === ".")

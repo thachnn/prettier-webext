@@ -1,0 +1,25 @@
+diff --git a/lib/core.js b/lib/core.js
+index f1e905a47d0706211320a5cf6fa562234205ffcf..5005a269e7dc039dbfbc76c97d53050427b1b5cd 100644
+--- a/lib/core.js
++++ b/lib/core.js
+@@ -2592,6 +2592,5 @@ const highlight = HLJS({});
+ // check https://github.com/wooorm/lowlight/issues/47
+ highlight.newInstance = () => HLJS({});
+ 
+-module.exports = highlight;
+-highlight.HighlightJS = highlight;
+-highlight.default = highlight;
++export default highlight;
++export { highlight as HighlightJS };
+diff --git a/package.json b/package.json
+index 6ee1be7551cb4dd0068fae66f2fa382aa5c9a837..669ba6c0fddcd8d54b3d8c83607bff5018d26162 100644
+--- a/package.json
++++ b/package.json
+@@ -108,6 +108,7 @@
+       "require": "./lib/core.js",
+       "import": "./es/core.js"
+     },
++    "./lib/core.js": "./lib/core.js",
+     "./lib/languages/*": {
+       "require": "./lib/languages/*.js",
+       "import": "./es/languages/*.js"
