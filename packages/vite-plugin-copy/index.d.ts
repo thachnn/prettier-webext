@@ -1,18 +1,19 @@
 import { Plugin } from 'vite';
 
 export interface CopyOptions {
-  hook?: string;
   root?: string;
   outDir?: string;
+  apply?: 'build' | 'serve';
+  hook?: string;
 }
 
 export interface CopyPattern {
   from: string;
-  to?: string | ((absoluteFrom: string) => string | PromiseLike<string>);
+  to?: string | ((sourceFilename: string) => string | PromiseLike<string>);
   context?: string;
   transform?: (
     content: Buffer,
-    sourceFilename: string,
+    absoluteFrom: string,
   ) => string | Buffer | PromiseLike<string | Buffer>;
 }
 

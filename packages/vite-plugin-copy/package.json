@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-copy",
+  "name": "@thachnn/vite-plugin-copy",
   "version": "1.0.0",
   "description": "Vite plugin to copy files during build",
   "main": "index.js",
