@@ -1,40 +1,71 @@
 <script setup>
 import { ref, computed, watchEffect } from 'vue';
 import { fetchManifest } from './shared/utils.js';
-import { importPrettier } from './shared/prettier-loader.js';
+import { importPrettier, buildOptionDefs, getParserLang } from './shared/prettier-helper.js';
 import VersionLogo from './components/VersionLogo.vue';
 import OptionsForm from './components/OptionsForm.vue';
 import OutputPanel from './components/OutputPanel.vue';
 
-const version = ref(''); // 3.5.3
+const libVersion = ref(''); // 3.5.3
 let prettier;
 const optionDefs = ref({});
+const formData = ref({ parser: 'babel' });
 
 // This effect will run immediately
 watchEffect(async () => {
   const manifest = await fetchManifest('https://unpkg.com/prettier', 'node_modules/prettier');
-  version.value = manifest.version;
+  libVersion.value = manifest.version;
 
   prettier = await importPrettier(manifest);
-  // TODO optionDefs.value = await buildOptDefinitions(prettier);
+  optionDefs.value = await buildOptionDefs(prettier);
 });
 
+const showSidebar = ref(window.innerWidth > window.innerHeight);
+const sourceCode = ref('');
 const formattedCode = ref('');
-const codeLanguage = computed(() => 'javascript'); // TODO formData.parser
+const codeLanguage = computed(() => getParserLang(formData.value.parser));
+
+//let isBusy;
+const formatSource = async () => {
+  if (!sourceCode.value || !sourceCode.value.trim().length) {
+    formattedCode.value = '';
+    return;
+  }
+  try {
+    formattedCode.value = await prettier.format(sourceCode.value, {
+      ...formData.value,
+      plugins: prettier.plugins,
+    });
+  } catch (err) {
+    console[console.warn ? 'warn' : 'error'](err);
+    formattedCode.value = err.message; // TODO
+  }
+};
 </script>
 
 <template>
   <header>
-    <VersionLogo :version="version" />
+    <VersionLogo :version="libVersion" />
   </header>
 
   <main>
-    <OptionsForm :components="optionDefs" />
-    <a href="" class="divider"></a>
+    <OptionsForm
+      :visible="showSidebar"
+      :components="optionDefs"
+      v-model="formData"
+      @change="formatSource"
+    />
+    <a href="#" id="divider" @click.prevent="showSidebar = !showSidebar"></a>
 
     <section>
-      <article id="editor">
-        <textarea placeholder="Enter your source code" spellcheck="false"></textarea>
+      <article>
+        <textarea
+          id="editor"
+          placeholder="Enter your source code"
+          spellcheck="false"
+          v-model="sourceCode"
+          @input="formatSource"
+        ></textarea>
       </article>
 
       <article>
@@ -81,7 +112,6 @@ main > section {
 }
 main section > * {
   flex: 100%;
-  box-sizing: border-box;
 }
 @media (min-width: 800px) {
   main section > * {
@@ -90,12 +120,10 @@ main section > * {
 }
 
 #editor {
-  padding: 0.5em 0.75em;
-}
-#editor textarea {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
+  padding: 0.25em 0.45em;
   resize: none;
 }
 </style>

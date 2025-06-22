@@ -2,16 +2,17 @@
 import hljs from 'highlight.js/lib/core.js';
 
 const modules = import.meta.glob(
-  '/node_modules/highlight.js/es/languages/{xml,bash,c,cpp,csharp,css,markdown,diff,ruby,go,graphql,ini,java,javascript,json,kotlin,less,perl,objectivec,php,php-template,plaintext,python,python-repl,rust,scss,shell,sql,yaml,typescript,vbnet}.js',
+  '/node_modules/highlight.js/es/languages/{xml,bash,c,cmake,cpp,csharp,css,markdown,dart,delphi,diff,ruby,go,graphql,handlebars,ini,java,javascript,json,kotlin,less,lua,makefile,perl,objectivec,php,php-template,plaintext,python,python-repl,r,rust,scala,scss,shell,sql,swift,yaml,typescript,vbnet,wasm}.js',
   { import: 'default', eager: true },
 );
 Object.entries(modules).forEach(([fn, mod]) =>
-  hljs.registerLanguage(fn.slice(fn.lastIndexOf('/') + 1, -3), mod),
+  hljs.registerLanguage(fn.slice(1 + fn.lastIndexOf('/'), -3), mod),
 );
 </script>
 
 <script setup>
 import SyntaxHighlighter from './SyntaxHighlighter.js';
+// TODO SyntaxLineNumbers
 
 defineProps({
   code: { type: String, required: true },
@@ -20,19 +21,30 @@ defineProps({
 </script>
 
 <template>
-  <pre><code class="hljs" :class="['language-' + language]" tabindex="0"
+  <pre><code
+      class="hljs line-numbers"
+      :class="['language-' + language]"
+      tabindex="0"
+      contenteditable="true"
+      spellcheck="false"
+      @beforeinput.prevent
       ><SyntaxHighlighter :code="code" :language="language" /></code
   ></pre>
 </template>
 
 <style>
+section pre {
+  margin: 0;
+  height: 100%;
+}
+
 pre code.hljs {
   display: block;
   overflow-x: auto;
   padding: 1em;
 }
 code.hljs {
-  padding: 3px 5px;
+  padding: 0.25em 0.45em;
 }
 
 /* GitHub theme */
@@ -55,6 +67,28 @@ code.hljs {
   --highlight-add-bg: #f0fff4;
   --highlight-del: #b31d28;
   --highlight-del-bg: #ffeef0;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --highlight-color: #c9d1d9;
+    --highlight-bg: #0d1117;
+    --highlight-keyword: #ff7b72;
+    --highlight-entity: #d2a8ff;
+    --highlight-const: #79c0ff;
+    --highlight-string: #a5d6ff;
+    --highlight-var: #ffa657;
+    --highlight-comment: #8b949e;
+    --highlight-tag: #7ee787;
+    --highlight-subst: #c9d1d9;
+    --highlight-heading: #1f6feb;
+    --highlight-list: #f2cc60;
+    --highlight-italic: #c9d1d9;
+    --highlight-bold: #c9d1d9;
+    --highlight-add: #aff5b4;
+    --highlight-add-bg: #033a16;
+    --highlight-del: #ffdcd7;
+    --highlight-del-bg: #67060c;
+  }
 }
 
 .hljs {
@@ -141,28 +175,5 @@ code.hljs {
 .hljs-punctuation,
 .hljs-tag {
   /* purposely ignored */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --highlight-color: #c9d1d9;
-    --highlight-bg: #0d1117;
-    --highlight-keyword: #ff7b72;
-    --highlight-entity: #d2a8ff;
-    --highlight-const: #79c0ff;
-    --highlight-string: #a5d6ff;
-    --highlight-var: #ffa657;
-    --highlight-comment: #8b949e;
-    --highlight-tag: #7ee787;
-    --highlight-subst: #c9d1d9;
-    --highlight-heading: #1f6feb;
-    --highlight-list: #f2cc60;
-    --highlight-italic: #c9d1d9;
-    --highlight-bold: #c9d1d9;
-    --highlight-add: #aff5b4;
-    --highlight-add-bg: #033a16;
-    --highlight-del: #ffdcd7;
-    --highlight-del-bg: #67060c;
-  }
 }
 </style>

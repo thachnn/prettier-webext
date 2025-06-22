@@ -45,3 +45,8 @@ export async function fetchWithTimeout(url, options = {}) {
     clearTimeout(timer);
   }
 }
+
+/** @returns {string} */
+export function toKebabCase(val, prefix = '') {
+  return prefix + `${val}`.replace(/[a-z0-9](?=[A-Z])|[A-Z](?=[A-Z][a-z])/g, '$&-').toLowerCase();
+}

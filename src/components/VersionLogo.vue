@@ -43,13 +43,13 @@ header a {
 }
 .logo h2 {
   font-weight: 400;
-  font-size: 167%;
+  font-size: 1.67em;
   line-height: 0.9;
   margin: 0 0 0 0.5em;
 }
 
 #version {
-  font-size: 50%;
+  font-size: 0.5em;
   opacity: 0.5;
 }
 </style>

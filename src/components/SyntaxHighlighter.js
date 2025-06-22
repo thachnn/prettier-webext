@@ -73,9 +73,7 @@ export default {
   setup(props) {
     // Return the render function
     return () =>
-      hljs.highlight(props.code, {
-        language: props.language,
-        ignoreIllegals: props.ignoreIllegals,
-      }).value;
+      hljs.highlight(props.code, { language: props.language, ignoreIllegals: props.ignoreIllegals })
+        .value;
   },
 };
