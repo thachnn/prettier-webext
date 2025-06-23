@@ -38,8 +38,9 @@ header a {
   display: inline-flex;
   align-items: center;
 }
+.logo,
 .logo img {
-  height: 2.83em;
+  height: 100%;
 }
 .logo h2 {
   font-weight: 400;

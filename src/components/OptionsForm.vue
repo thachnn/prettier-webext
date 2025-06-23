@@ -91,27 +91,51 @@ const handleReset = () => {
     </details>
 
     <p>
-      <button class="btn">Copy config JSON</button>
+      <button class="btn">Copy conf. JSON</button>
       <button type="reset" class="btn">Reset to defaults</button>
     </p>
   </form>
 </template>
 
 <style>
+form > * {
+  margin: 1.25em 0;
+}
+form details > *,
+form > p {
+  padding-left: 0.67em;
+  padding-right: 0.5em;
+}
+
+form > details {
+  padding-bottom: 0.75em;
+  border-bottom: 1px solid #ddd;
+}
+form summary {
+  font-size: 117%;
+  font-weight: 700;
+  padding-bottom: 0.35em;
+}
+
 form label {
   font-family: var(--font-mono);
+}
+form input[type='number'] {
+  width: 3.5em;
 }
 
 form select,
 form input {
   float: right;
+  margin-left: 0.35em;
 }
 form input[type='checkbox'] {
   float: left;
+  margin: 0.125em 0.415em 0 0;
 }
 form fieldset {
   clear: both;
-  padding: 0.25em 0.5em;
+  margin: 0.75em 0;
 }
 
 form > p {

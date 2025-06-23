@@ -24,8 +24,8 @@ dist-ssr/
 .cache/
 
 # yarn v2
-.yarn/cache
-*.gz
+.yarn/*
+!.yarn/patches
 .pnp.*
 
 # Editor directories and files

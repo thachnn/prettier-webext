@@ -22,7 +22,7 @@ defineProps({
 
 <template>
   <pre><code
-      class="hljs line-numbers"
+      class="editor hljs line-numbers"
       :class="['language-' + language]"
       tabindex="0"
       contenteditable="true"
@@ -37,14 +37,9 @@ section pre {
   margin: 0;
   height: 100%;
 }
-
-pre code.hljs {
+pre > code {
   display: block;
-  overflow-x: auto;
-  padding: 1em;
-}
-code.hljs {
-  padding: 0.25em 0.45em;
+  overflow: auto;
 }
 
 /* GitHub theme */

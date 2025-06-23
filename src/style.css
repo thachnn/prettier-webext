@@ -22,6 +22,7 @@
   --btn-active-bg: #e9ecef none;
   --btn-active-border: #afb1b2;
   --btn-active-shadow: #1b1f2326;
+  --btn-disabled: #afb1b2;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -36,6 +37,7 @@
     --btn-active-bg: #e9ecef none;
     --btn-active-border: #afb1b2;
     --btn-active-shadow: #1b1f2326;
+    --btn-disabled: #afb1b2;
   }
 }
 
@@ -158,7 +160,7 @@ template,
 #app {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  height: 100%;
 }
 
 .btn {
@@ -182,5 +184,6 @@ template,
   box-shadow: inset 0 0.15em 0.3em var(--btn-active-shadow);
 }
 .btn:disabled {
+  color: var(--btn-disabled);
   pointer-events: none;
 }
