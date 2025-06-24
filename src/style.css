@@ -13,6 +13,7 @@
   --line-height: 1.25;
   --body-color: #6a6a6a;
   --body-bg: #fafafa;
+  --hr-color: #ddd;
 
   --btn-border: #d1d2d3;
   --btn-color: #24292e;
@@ -28,6 +29,7 @@
   :root {
     --body-color: #6a6a6a;
     --body-bg: #fafafa;
+    --hr-color: #ddd;
 
     --btn-border: #d1d2d3;
     --btn-color: #24292e;

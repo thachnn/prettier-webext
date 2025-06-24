@@ -31,7 +31,7 @@ const href = computed(() =>
 <style>
 header a:active,
 header a {
-  color: #fff;
+  color: var(--header-color);
 }
 
 .logo {

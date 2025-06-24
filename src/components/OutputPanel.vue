@@ -12,7 +12,7 @@ Object.entries(modules).forEach(([fn, mod]) =>
 
 <script setup>
 import SyntaxHighlighter from './SyntaxHighlighter.js';
-// TODO SyntaxLineNumbers
+import AllLineNumbers from './AllLineNumbers.vue';
 
 defineProps({
   code: { type: String, required: true },
@@ -28,7 +28,7 @@ defineProps({
       contenteditable="true"
       spellcheck="false"
       @beforeinput.prevent
-      ><SyntaxHighlighter :code="code" :language="language" /></code
+      ><SyntaxHighlighter :code="code" :language="language" /><AllLineNumbers :code="code" /></code
   ></pre>
 </template>
 

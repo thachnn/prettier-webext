@@ -1,21 +1,25 @@
 import { fetchManifest, toKebabCase } from './utils.js';
 
 /**
- * @typedef {import('prettier')} prettier
+ * @typedef {(import('prettier')|{plugins: import('prettier').Plugin[]})} prettier
  * @param {Record<string, *>} manifest
- * @return {Promise<(prettier|{plugins: prettier.Plugin[]})>}
+ * @return {Promise<prettier>}
  */
 export async function importPrettier(manifest) {
   const paths = new Set([manifest.browser.replace(/\.js$/i, '.mjs')]);
 
   for (const [key, val] of Object.entries(manifest.exports))
     typeof val == 'object' && /^(\.\/)?plugins\b/.test(key) && paths.add(val.default);
+  // DEBUG
+  console.info('Import prettier from:', paths);
 
   const [instance, ...plugins] = await Promise.all(
     [...paths].map((path) => import(new URL(path, manifest._where)).then((mod) => mod.default)),
   );
 
   instance.plugins = plugins;
+  // DEBUG
+  console.log('Imported prettier:', instance);
   return instance;
 }
 
@@ -116,6 +120,7 @@ export function getParserLang(parser) {
 
     case 'angular':
     case 'lwc':
+    case 'mjml':
     case 'vue':
       return 'html';
 

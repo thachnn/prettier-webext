@@ -1,5 +1,6 @@
 <script setup>
 import { watch } from 'vue';
+// TODO ClipboardButton
 
 const props = defineProps({
   visible: { type: Boolean, default: true },
@@ -18,6 +19,8 @@ watch(
         if (option.default != null) formData.value[option.name] = option.default;
 
     Object.assign(formDefaults, formData.value);
+    // DEBUG
+    console.log('Default options:', formDefaults);
   },
 );
 
@@ -25,6 +28,13 @@ const handleChange = () => emit('change', formDefaults);
 
 const handleReset = () => {
   formData.value = Object.assign({}, formDefaults);
+};
+
+const buildConfigJSON = () => {
+  const opts = Object.fromEntries(
+    Object.entries(formData.value).filter(([k, v]) => k !== 'parser' && v !== formDefaults[k]),
+  );
+  return JSON.stringify(opts, null, 2);
 };
 </script>
 
@@ -91,6 +101,8 @@ const handleReset = () => {
     </details>
 
     <p>
+      <!-- TODO <button class="btn">Set selected text as range</button> -->
+      <!-- <ClipboardButton class="btn" :copy="buildConfigJSON">Copy conf. JSON</ClipboardButton> -->
       <button class="btn">Copy conf. JSON</button>
       <button type="reset" class="btn">Reset to defaults</button>
     </p>
@@ -109,7 +121,7 @@ form > p {
 
 form > details {
   padding-bottom: 0.75em;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--hr-color);
 }
 form summary {
   font-size: 117%;

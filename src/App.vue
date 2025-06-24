@@ -40,7 +40,7 @@ const formatSource = async () => {
       plugins: prettier.plugins,
     });
   } catch (err) {
-    console[console.warn ? 'warn' : 'log'](err);
+    console.warn(err);
     formattedCode.value = err.message;
   } finally {
     // Release the busy state
@@ -89,15 +89,26 @@ const formatSource = async () => {
 </template>
 
 <style>
+:root {
+  --header-bg: #1a2b34;
+  --header-color: #fff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --header-bg: #1a2b34;
+    --header-color: #fff;
+  }
+}
+
 header {
   height: 2.834em;
   padding: 0.75em 1.75em;
-  background-color: #1a2b34;
-  color: #e0e0e0;
+  background-color: var(--header-bg);
+  /*color: #e0e0e0;*/
 }
 
 /*footer {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--hr-color);
   padding: 0.67em;
 }
 footer > * {
@@ -115,11 +126,10 @@ main > form {
 #divider {
   display: block;
   min-height: 0.75em;
-  background-image:
-    radial-gradient(circle at 25% 25%, #ddd 24%, transparent 25%),
-    radial-gradient(circle at 75% 75%, #ccc 24%, transparent 25%);
-  background-image: repeating-conic-gradient(#ddd 0 25%, transparent 0 50%);
-  /*background-position: 0 0, 50% 50%;*/
+  /*background-image:
+    radial-gradient(circle at 25% 25%, var(--hr-color) 24%, transparent 25%),
+    radial-gradient(circle at 75% 75%, var(--hr-color) 24%, transparent 25%);*/
+  background-image: repeating-conic-gradient(var(--hr-color) 0 25%, transparent 25% 50%);
   background-size: 0.75em 0.75em;
 }
 @media (min-width: 600px) {
@@ -173,7 +183,7 @@ main section > * {
 textarea.editor {
   width: 100%;
   border-width: 0 0 1px;
-  border-color: #ddd;
+  border-color: var(--hr-color);
   font-family: var(--font-mono);
   resize: none;
   white-space: nowrap;
