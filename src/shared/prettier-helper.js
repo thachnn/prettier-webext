@@ -14,10 +14,12 @@ export async function importPrettier(manifest) {
   console.info('Import prettier from:', paths);
 
   const [instance, ...plugins] = await Promise.all(
-    [...paths].map((path) => import(new URL(path, manifest._where)).then((mod) => mod.default)),
+    [...paths].map((path) =>
+      import(/* @vite-ignore */ new URL(path, manifest._where)).then((mod) => mod.default),
+    ),
   );
-
   instance.plugins = plugins;
+
   // DEBUG
   console.log('Imported prettier:', instance);
   return instance;

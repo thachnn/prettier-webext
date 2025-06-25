@@ -61,12 +61,9 @@ const formatSource = async () => {
       v-model="formData"
       @change="formatSource"
     />
-    <a
-      href="#"
-      id="divider"
-      title="Hide/show options"
-      @click.prevent="showSidebar = !showSidebar"
-    ></a>
+    <a href="#" id="divider" title="Hide/show options" @click.prevent="showSidebar = !showSidebar"
+      >&nbsp;</a
+    >
 
     <section>
       <article>
@@ -125,7 +122,7 @@ main > form {
 }
 #divider {
   display: block;
-  min-height: 0.75em;
+  line-height: 0.75;
   /*background-image:
     radial-gradient(circle at 25% 25%, var(--hr-color) 24%, transparent 25%),
     radial-gradient(circle at 75% 75%, var(--hr-color) 24%, transparent 25%);*/

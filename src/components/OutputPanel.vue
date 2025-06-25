@@ -5,9 +5,9 @@ const modules = import.meta.glob(
   '/node_modules/highlight.js/es/languages/{xml,bash,c,cmake,cpp,csharp,css,markdown,dart,delphi,diff,ruby,go,graphql,handlebars,ini,java,javascript,json,kotlin,less,lua,makefile,perl,objectivec,php,php-template,plaintext,python,python-repl,r,rust,scala,scss,shell,sql,swift,yaml,typescript,vbnet,wasm}.js',
   { import: 'default', eager: true },
 );
-Object.entries(modules).forEach(([fn, mod]) =>
-  hljs.registerLanguage(fn.slice(1 + fn.lastIndexOf('/'), -3), mod),
-);
+Object.entries(modules).forEach(([fn, mod]) => {
+  hljs.registerLanguage(fn.slice(1 + fn.lastIndexOf('/'), -3), mod);
+});
 </script>
 
 <script setup>
@@ -28,7 +28,8 @@ defineProps({
       contenteditable="true"
       spellcheck="false"
       @beforeinput.prevent
-      ><SyntaxHighlighter :code="code" :language="language" /><AllLineNumbers :code="code" /></code
+      ><SyntaxHighlighter :code="code" :language="language" /><br /><AllLineNumbers
+        :code="code" /></code
   ></pre>
 </template>
 
