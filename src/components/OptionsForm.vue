@@ -5,6 +5,7 @@ import ClipboardButton from './ClipboardButton.vue';
 const props = defineProps({
   visible: { type: Boolean, default: true },
   components: { type: Object, required: true },
+  inputRef: Object,
 });
 const formData = defineModel({ type: Object, required: true });
 
@@ -27,7 +28,10 @@ watch(
 const handleChange = () => emit('change', formDefaults);
 
 const handleReset = () => {
-  formData.value = Object.assign({}, formDefaults);
+  if (Object.keys(formData.value).some((k) => formData.value[k] !== formDefaults[k])) {
+    formData.value = Object.assign({}, formDefaults);
+    handleChange();
+  }
 };
 
 const buildConfigJSON = () => {
@@ -35,6 +39,18 @@ const buildConfigJSON = () => {
     Object.entries(formData.value).filter(([k, v]) => k !== 'parser' && v !== formDefaults[k]),
   );
   return JSON.stringify(opts, null, 2);
+};
+
+const pickInputSelection = () => {
+  const inputEl = props.inputRef;
+  if (
+    inputEl &&
+    ['Start', 'End'].some((x) => formData.value['range' + x] !== inputEl['selection' + x])
+  ) {
+    formData.value.rangeStart = inputEl.selectionStart;
+    formData.value.rangeEnd = inputEl.selectionEnd;
+    handleChange();
+  }
 };
 </script>
 
@@ -49,60 +65,63 @@ const buildConfigJSON = () => {
     <details v-for="(fields, catName) in components" :key="catName" open>
       <summary>{{ catName }}</summary>
 
-      <fieldset
-        v-for="field in fields"
-        :key="field.name"
-        :title="field.oppositeDescription || field.description"
-        :disabled="!!field.parsers && !field.parsers[formData.parser]"
-      >
-        <select
-          v-if="field.type === 'choice'"
-          :name="field.name"
-          :id="field.name"
-          v-model="formData[field.name]"
-          @change="handleChange"
-        >
-          <option v-for="item in field.choices" :key="item.value" :value="item.value">
-            {{ item.value }}
-          </option>
-        </select>
-        <input
-          v-else-if="field.type === 'int'"
-          type="number"
-          :name="field.name"
-          :id="field.name"
-          :min="field.range && field.range.start"
-          :max="field.range && isFinite(field.range.end) && field.range.end"
-          :step="field.range && field.range.step"
-          v-model.number="formData[field.name]"
-          @input="handleChange"
-        />
-        <input
-          v-else-if="field.type === 'boolean'"
-          type="checkbox"
-          :name="field.name"
-          :id="field.name"
-          v-model="formData[field.name]"
-          :true-value="!field.oppositeDescription"
-          :false-value="!!field.oppositeDescription"
-          @change="handleChange"
-        />
-        <input
-          v-else
-          type="text"
-          :name="field.name"
-          :id="field.name"
-          v-model="formData[field.name]"
-          @input="handleChange"
-        />
+      <template v-for="field in fields" :key="field.name">
+        <p v-if="field.name === 'rangeStart'">
+          <button class="btn" @click="pickInputSelection">Set selected text as range</button>
+        </p>
 
-        <label :for="field.name">{{ field.cliName }}</label>
-      </fieldset>
+        <fieldset
+          :title="field.oppositeDescription || field.description"
+          :disabled="!!field.parsers && !field.parsers[formData.parser]"
+        >
+          <select
+            v-if="field.type === 'choice'"
+            :name="field.name"
+            :id="field.name"
+            v-model="formData[field.name]"
+            @change="handleChange"
+          >
+            <option v-for="item in field.choices" :key="item.value" :value="item.value">
+              {{ item.value }}
+            </option>
+          </select>
+          <input
+            v-else-if="field.type === 'int'"
+            type="number"
+            :name="field.name"
+            :id="field.name"
+            :min="field.range && field.range.start"
+            :max="field.range && isFinite(field.range.end) && field.range.end"
+            :step="field.range && field.range.step"
+            v-model.number="formData[field.name]"
+            @input="handleChange"
+          />
+          <input
+            v-else-if="field.type === 'boolean'"
+            type="checkbox"
+            :name="field.name"
+            :id="field.name"
+            v-model="formData[field.name]"
+            :true-value="!field.oppositeDescription"
+            :false-value="!!field.oppositeDescription"
+            @change="handleChange"
+          />
+          <input
+            v-else
+            type="text"
+            :name="field.name"
+            :id="field.name"
+            v-model="formData[field.name]"
+            @input="handleChange"
+          />
+
+          <label :for="field.name">{{ field.cliName }}</label>
+        </fieldset>
+      </template>
     </details>
 
-    <p>
-      <!-- TODO <button class="btn">Set selected text as range</button> -->
-      <ClipboardButton class="btn" :copy="buildConfigJSON">Copy conf. JSON</ClipboardButton>
+    <p class="clearfix">
+      <ClipboardButton class="btn" :copy="buildConfigJSON">Copy config JSON</ClipboardButton>
       <button type="reset" class="btn">Reset to defaults</button>
     </p>
   </form>
@@ -144,13 +163,27 @@ form input[type='checkbox'] {
   float: left;
   margin: 0.125em 0.415em 0 0;
 }
-form fieldset {
+.clearfix::after,
+form fieldset::after {
+  content: '';
   clear: both;
+  display: table;
+}
+form fieldset {
   margin: 0.75em 0;
 }
 
+form details p {
+  text-align: right;
+  margin: 0.833em 0;
+}
 form > p {
-  display: flex;
-  justify-content: space-between;
+  margin-bottom: 1.4em;
+}
+form > p button {
+  float: left;
+}
+form > p button:last-child {
+  float: right;
 }
 </style>

@@ -18,10 +18,11 @@ export async function importPrettier(manifest) {
       import(/* @vite-ignore */ new URL(path, manifest._where)).then((mod) => mod.default),
     ),
   );
-  instance.plugins = plugins;
 
+  instance.plugins = plugins;
   // DEBUG
   console.log('Imported prettier:', instance);
+
   return instance;
 }
 

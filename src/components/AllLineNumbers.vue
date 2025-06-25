@@ -33,7 +33,7 @@ code.line-numbers {
   padding: 0.545em 0;
   min-height: 100%;
   width: 3.08em;
-  letter-spacing: -1px;
+  letter-spacing: -0.08em;
   background: var(--body-bg);
   border-right: 1px solid var(--hr-color);
   user-select: none;

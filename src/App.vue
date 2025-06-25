@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watchEffect, nextTick } from 'vue';
+import { ref, computed, watchEffect, useTemplateRef, nextTick } from 'vue';
 import { fetchManifest } from './shared/utils.js';
 import { importPrettier, buildOptionDefs, getParserLang } from './shared/prettier-helper.js';
 import VersionLogo from './components/VersionLogo.vue';
@@ -20,7 +20,9 @@ watchEffect(async () => {
   optionDefs.value = await buildOptionDefs(prettier);
 });
 
-const showSidebar = ref(window.innerWidth > window.innerHeight);
+const showSidebar = ref(typeof window != 'undefined' && window.innerWidth > window.innerHeight);
+const sourceRef = useTemplateRef('inputCode');
+
 const sourceCode = ref('');
 const formattedCode = ref('');
 const codeLanguage = computed(() => getParserLang(formData.value.parser));
@@ -58,6 +60,7 @@ const formatSource = async () => {
     <OptionsForm
       :visible="showSidebar"
       :components="optionDefs"
+      :inputRef="sourceRef"
       v-model="formData"
       @change="formatSource"
     />
@@ -71,6 +74,7 @@ const formatSource = async () => {
           class="editor"
           placeholder="Enter your source code"
           spellcheck="false"
+          ref="inputCode"
           v-model="sourceCode"
           @input="formatSource"
         ></textarea>

@@ -16,7 +16,7 @@
     "build": "node node_modules/vite/bin/vite.js build",
     "preview": "node node_modules/vite/bin/vite.js preview",
     "clean": "git clean -fdx dist \"node_modules/.vite*\" node_modules/.cache",
-    "test": "node node_modules/prettier/bin/prettier.cjs -c ."
+    "test": "node node_modules/prettier/bin/prettier.cjs --cache -c ."
   },
   "workspaces": [
     "packages/vite-plugin-copy"

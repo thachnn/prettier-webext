@@ -173,6 +173,7 @@ template,
   color: var(--btn-color);
   background-image: var(--btn-bg);
   font-weight: 600;
+  letter-spacing: -0.02em;
   border-radius: 0.25em;
   cursor: pointer;
 }
