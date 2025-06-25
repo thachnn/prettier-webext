@@ -1,6 +1,6 @@
 <script setup>
 import { watch } from 'vue';
-// TODO ClipboardButton
+import ClipboardButton from './ClipboardButton.vue';
 
 const props = defineProps({
   visible: { type: Boolean, default: true },
@@ -102,8 +102,7 @@ const buildConfigJSON = () => {
 
     <p>
       <!-- TODO <button class="btn">Set selected text as range</button> -->
-      <!-- <ClipboardButton class="btn" :copy="buildConfigJSON">Copy conf. JSON</ClipboardButton> -->
-      <button class="btn">Copy conf. JSON</button>
+      <ClipboardButton class="btn" :copy="buildConfigJSON">Copy conf. JSON</ClipboardButton>
       <button type="reset" class="btn">Reset to defaults</button>
     </p>
   </form>

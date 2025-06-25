@@ -20,6 +20,7 @@
     "page": "main.html",
     "open_in_tab": true
   },
+  "permissions": ["clipboardWrite"],
   "content_security_policy": {
     "sandbox": "sandbox allow-scripts; script-src-elem 'self' https://unpkg.com;"
   },

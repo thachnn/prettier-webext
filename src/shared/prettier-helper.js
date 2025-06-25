@@ -112,6 +112,7 @@ export function getParserLang(parser) {
     case 'acorn':
     case 'babel':
     case 'espree':
+    case 'json5':
     case 'meriyah':
       return 'javascript';
 
@@ -126,10 +127,8 @@ export function getParserLang(parser) {
     case 'vue':
       return 'html';
 
-    case 'json5':
     case 'json-stringify':
       return 'json';
-
     case 'mdx':
       return 'markdown';
     case 'glimmer':

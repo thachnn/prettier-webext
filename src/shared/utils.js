@@ -50,3 +50,18 @@ export async function fetchWithTimeout(url, options = {}) {
 export function toKebabCase(val, prefix = '') {
   return prefix + `${val}`.replace(/[a-z0-9](?=[A-Z])|[A-Z](?=[A-Z][a-z])/g, '$&-').toLowerCase();
 }
+
+export function copyToClipboard(text) {
+  function onCopy(event) {
+    document.removeEventListener('copy', onCopy, true);
+
+    event.stopImmediatePropagation();
+    event.preventDefault();
+
+    // Overwrite the clipboard content
+    event.clipboardData.setData('text/plain', text);
+  }
+
+  document.addEventListener('copy', onCopy, true);
+  document.execCommand('copy');
+}
