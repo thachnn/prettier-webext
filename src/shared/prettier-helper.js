@@ -1,7 +1,7 @@
-import { fetchManifest, toKebabCase } from './utils.js';
+import { toKebabCase } from './utils.js';
 
+/** @typedef {(typeof import('prettier')|{plugins: import('prettier').Plugin[]})} prettier */
 /**
- * @typedef {(import('prettier')|{plugins: import('prettier').Plugin[]})} prettier
  * @param {Record<string, *>} manifest
  * @return {Promise<prettier>}
  */
@@ -26,8 +26,8 @@ export async function importPrettier(manifest) {
   return instance;
 }
 
+/** @typedef {(import('prettier').SupportOption|{parsers: Object, cliName: string})} OptDefinition */
 /**
- * @typedef {(prettier.SupportOption|{parsers: Object, cliName: string})} OptDefinition
  * @param {prettier} instance
  * @param {string[]} [excludes]
  * @param {Object.<string, Object>} [orders]

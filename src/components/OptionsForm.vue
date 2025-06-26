@@ -7,14 +7,16 @@ const props = defineProps({
   components: { type: Object, required: true },
   inputRef: Object,
 });
+/** @type {ModelRef<Object.<string, *>>} */
 const formData = defineModel({ type: Object, required: true });
 
 const emit = defineEmits(['change']);
+/** @type {Object.<string, *>} */
 const formDefaults = {};
 
 watch(
   () => props.components,
-  (definitions) => {
+  (/** Object.<string, OptDefinition[]> */ definitions) => {
     for (const descriptors of Object.values(definitions))
       for (const option of descriptors)
         if (option.default != null) formData.value[option.name] = option.default;
@@ -41,7 +43,7 @@ const buildConfigJSON = () => {
   return JSON.stringify(opts, null, 2);
 };
 
-const pickInputSelection = () => {
+const pickSelectedRange = () => {
   const inputEl = props.inputRef;
   if (
     inputEl &&
@@ -67,7 +69,7 @@ const pickInputSelection = () => {
 
       <template v-for="field in fields" :key="field.name">
         <p v-if="field.name === 'rangeStart'">
-          <button class="btn" @click="pickInputSelection">Set selected text as range</button>
+          <button class="btn" @click.prevent="pickSelectedRange">Set selected text as range</button>
         </p>
 
         <fieldset

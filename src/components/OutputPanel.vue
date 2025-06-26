@@ -33,6 +33,7 @@ defineProps({
   ></pre>
 </template>
 
+<!--suppress CssUnusedSymbol -->
 <style>
 section pre {
   margin: 0;
@@ -164,12 +165,12 @@ pre > code {
   color: var(--highlight-del);
   background-color: var(--highlight-del-bg);
 }
-.hljs-char.escape_,
+/*.hljs-char.escape_,
 .hljs-link,
 .hljs-params,
 .hljs-property,
 .hljs-punctuation,
 .hljs-tag {
-  /* purposely ignored */
-}
+  // purposely ignored
+}*/
 </style>

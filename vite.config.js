@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import copyFiles from '@thachnn/vite-plugin-copy';
 
+/** @returns {import('vite').Plugin} */
 const displayModules = () => ({
   name: 'display-modules',
   apply: 'build',
@@ -18,6 +19,11 @@ const transformCode = (...patterns) => ({
       ? null
       : (this.info('code'), _ref.reduce((str, p) => str.replace(p.search, p.replace), code));
   },
+});
+const transformCSS = (...patterns) => ({
+  ...transformCode(...patterns),
+  name: 'transform-css',
+  enforce: undefined,
 });
 
 // https://vite.dev/config/
@@ -39,12 +45,24 @@ export default defineConfig({
   server: { port: 8000, open: false },
   plugins: [
     vue(),
+    displayModules(),
     transformCode({
       test: /[\\/]OutputPanel\.vue$/,
       search: /\/node_modules\/highlight\.js\/\w+\/languages(\/[\w.-]+['"] ?:)/g,
       replace: '$1',
     }),
-    displayModules(),
+    transformCSS(
+      {
+        test: /\bsrc[\\/].*\.css$/,
+        search: /^ *@media\b[^{}]+/gm,
+        replace: (m) => m.replace(/([ ()]\w[\w-]*:) +/g, '$1'),
+      },
+      {
+        test: /\bsrc[\\/].*\.css$/,
+        search: /^( *--[\w-]+:)([^;{}]+)/gm,
+        replace: (_, $1, $2) => $1 + $2.trim().replace(/,\s+/g, ','),
+      },
+    ),
     copyFiles({ from: 'node_modules/prettier/{*.json,standalone.mjs,plugins/*.mjs}' }),
   ],
 });

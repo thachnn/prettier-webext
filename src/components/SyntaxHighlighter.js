@@ -1,9 +1,9 @@
 import { h } from 'vue';
 import hljs from 'highlight.js/lib/core.js';
 
-/** @implements {hljs.Emitter} */
+/** @implements {module:"highlight.js".Emitter} */
 class VNodeTreeEmitter {
-  /** @param {hljs.HljsOptions} options */
+  /** @param {HLJSOptions} options */
   constructor(options) {
     this.root = { children: [] };
     this.stack = [this.root];
@@ -11,6 +11,7 @@ class VNodeTreeEmitter {
     this.classPrefix = options.classPrefix;
   }
 
+  /** @private */
   _add(...node) {
     const current = this.stack[this.stack.length - 1];
     current.children.push(...node);
@@ -30,10 +31,12 @@ class VNodeTreeEmitter {
     this.stack.length > 1 && this.stack.pop();
   }
 
+  /** @param {string} text */
   addText(text) {
     text && this._add(text);
   }
 
+  /** @param {string} scope */
   startScope(scope) {
     this.openNode(scope);
   }
@@ -43,7 +46,7 @@ class VNodeTreeEmitter {
   }
 
   /**
-   * @param {this} other
+   * @param {(Emitter|this)} other
    * @param {string} name
    */
   __addSublanguage(other, name) {
@@ -53,6 +56,7 @@ class VNodeTreeEmitter {
       : this._add(...nodes);
   }
 
+  /** @returns {*} */
   toHTML() {
     return this.root.children;
   }

@@ -20,9 +20,11 @@ watchEffect(async () => {
   optionDefs.value = await buildOptionDefs(prettier);
 });
 
+/** @type {import('vue').Ref<boolean>} */
 const showSidebar = ref(typeof window != 'undefined' && window.innerWidth > window.innerHeight);
 const sourceRef = useTemplateRef('inputCode');
 
+/** @type {import('vue').Ref<string>} */
 const sourceCode = ref('');
 const formattedCode = ref('');
 const codeLanguage = computed(() => getParserLang(formData.value.parser));
@@ -46,7 +48,7 @@ const formatSource = async () => {
     formattedCode.value = err.message;
   } finally {
     // Release the busy state
-    nextTick(() => (isBusy = false));
+    await nextTick(() => (isBusy = null));
   }
 };
 </script>

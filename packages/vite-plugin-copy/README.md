@@ -1,3 +1,3 @@
 # @thachnn/vite-plugin-copy
 
-Vite plugin to copy files during build.
+Vite/rollup plugin to copy files during build.

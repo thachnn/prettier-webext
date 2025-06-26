@@ -19,6 +19,7 @@ const linesCount = computed(() => {
 </template>
 
 <style>
+/*noinspection CssUnusedSymbol*/
 code.line-numbers {
   position: relative;
   padding-left: 3.5em;

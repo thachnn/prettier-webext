@@ -1,7 +1,7 @@
 'use strict';
 
 const { dirname, join, resolve, sep } = require('path');
-const { copyFile, mkdir, readFile, writeFile } = require('fs/promises');
+const { copyFile, mkdir, readFile, writeFile } = require('fs').promises;
 const { glob } = require('tinyglobby');
 
 const transformFile = async ({ from, to, transform }) => {
@@ -75,6 +75,7 @@ const collectOutDirs = (copyList, opts) => {
   return dirs.filter(Boolean);
 };
 
+/** @returns {import('vite').Plugin} */
 module.exports = (patterns, options = {}) => {
   const opts = { root: options.root || process.cwd(), outDir: options.outDir || '' };
   patterns = [].concat(patterns);
