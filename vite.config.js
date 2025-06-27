@@ -17,13 +17,14 @@ const transformCode = (...patterns) => ({
   transform(code, id, _ref) {
     return !code || !id || !(_ref = patterns.filter((p) => p.test.test(id))).length
       ? null
-      : (this.info('code'), _ref.reduce((str, p) => str.replace(p.search, p.replace), code));
+      : (this.info('...'), _ref.reduce((str, p) => str.replace(p.search, p.replace), code));
   },
 });
-const transformCSS = (...patterns) => ({
+
+const transformFile = (...patterns) => ({
   ...transformCode(...patterns),
-  name: 'transform-css',
-  enforce: undefined,
+  enforce: 'pre',
+  name: 'transform-file',
 });
 
 // https://vite.dev/config/
@@ -51,7 +52,7 @@ export default defineConfig({
       search: /\/node_modules\/highlight\.js\/\w+\/languages(\/[\w.-]+['"] ?:)/g,
       replace: '$1',
     }),
-    transformCSS(
+    transformFile(
       {
         test: /\bsrc[\\/].*\.css$/,
         search: /^ *@media\b[^{}]+/gm,

@@ -37,6 +37,8 @@
     "fsevents/node-gyp": "link:./.yarn/empty-package",
     "fdir@^6.4.4": "patch:fdir@6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch",
     "highlight.js@^11.9.0": "patch:highlight.js@11.11.1#./.yarn/patches/highlight.js-11.11.1-1afef66f5e.patch",
-    "source-map-js": "patch:source-map-js@1.2.1#./.yarn/patches/source-map-js-1.2.1-b9a47d7e1a.patch"
+    "source-map-js": "patch:source-map-js@1.2.1#./.yarn/patches/source-map-js-1.2.1-b9a47d7e1a.patch",
+    "picomatch@^4.0.2": "patch:picomatch@4.0.2#./.yarn/patches/picomatch-4.0.2-e3765597f8.patch",
+    "vite@^6.3.2": "patch:vite@6.3.5#./.yarn/patches/vite-6.3.5-244c1b4d55.patch"
   }
 }

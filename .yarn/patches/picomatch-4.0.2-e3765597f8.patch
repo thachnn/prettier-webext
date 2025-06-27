@@ -1,0 +1,400 @@
+diff --git a/index.js b/index.js
+index a753b1d9e843c93b62700aa155db920a1a940baa..f2f514c71c1db454add0b848812d0fc6eae5770d 100644
+--- a/index.js
++++ b/index.js
+@@ -1,11 +1,11 @@
+ 'use strict';
+ 
+-const pico = require('./lib/picomatch');
+-const utils = require('./lib/utils');
++import pico from './lib/picomatch.js';
++import * as utils from './lib/utils.js';
+ 
+-function picomatch(glob, options, returnState = false) {
++function picomatch$(glob, options, returnState = false) {
+   // default to os.platform()
+-  if (options && (options.windows === null || options.windows === undefined)) {
++  if (options && options.windows == null) {
+     // don't mutate the original options object
+     options = { ...options, windows: utils.isWindows() };
+   }
+@@ -13,5 +13,5 @@ function picomatch(glob, options, returnState = false) {
+   return pico(glob, options, returnState);
+ }
+ 
+-Object.assign(picomatch, pico);
+-module.exports = picomatch;
++Object.assign(picomatch$, pico);
++export default picomatch$;
+diff --git a/index.cjs b/index.cjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..265f993ecef249b90abbd537a2d4753158888f78
+--- /dev/null
++++ b/index.cjs
+@@ -0,0 +1,3 @@
++'use strict';
++
++module.exports = require('./index.js').default;
+diff --git a/lib/constants.js b/lib/constants.js
+index 27b3e20fdfe9b7e4b8e170b74256ebf1fadf2fd5..92e29addc8d993107488c851dfd2fd610127e17d 100644
+--- a/lib/constants.js
++++ b/lib/constants.js
+@@ -85,81 +85,80 @@ const POSIX_REGEX_SOURCE = {
+   xdigit: 'A-Fa-f0-9'
+ };
+ 
+-module.exports = {
+-  MAX_LENGTH: 1024 * 64,
+-  POSIX_REGEX_SOURCE,
++export const MAX_LENGTH = 1024 * 64;
++export { POSIX_REGEX_SOURCE };
+ 
+   // regular expressions
+-  REGEX_BACKSLASH: /\\(?![*+?^${}(|)[\]])/g,
+-  REGEX_NON_SPECIAL_CHARS: /^[^@![\].,$*+?^{}()|\\/]+/,
+-  REGEX_SPECIAL_CHARS: /[-*+?.^${}(|)[\]]/,
+-  REGEX_SPECIAL_CHARS_BACKREF: /(\\?)((\W)(\3*))/g,
+-  REGEX_SPECIAL_CHARS_GLOBAL: /([-*+?.^${}(|)[\]])/g,
+-  REGEX_REMOVE_BACKSLASH: /(?:\[.*?[^\\]\]|\\(?=.))/g,
++export const REGEX_BACKSLASH = /\\(?![*+?^${}(|)[\]])/g;
++export const REGEX_NON_SPECIAL_CHARS = /^[^@![\].,$*+?^{}()|\\/]+/;
++export const REGEX_SPECIAL_CHARS = /[-*+?.^${}(|)[\]]/;
++export const REGEX_SPECIAL_CHARS_BACKREF = /(\\?)((\W)(\3*))/g;
++export const REGEX_SPECIAL_CHARS_GLOBAL = /([-*+?.^${}(|)[\]])/g;
++export const REGEX_REMOVE_BACKSLASH = /(?:\[.*?[^\\]\]|\\(?=.))/g;
+ 
+   // Replace globs with equivalent patterns to reduce parsing time.
+-  REPLACEMENTS: {
++export const REPLACEMENTS = {
+     '***': '*',
+     '**/**': '**',
+     '**/**/**': '**'
+-  },
++  };
+ 
+   // Digits
+-  CHAR_0: 48, /* 0 */
+-  CHAR_9: 57, /* 9 */
++export const CHAR_0 = 48; /* 0 */
++export const CHAR_9 = 57; /* 9 */
+ 
+   // Alphabet chars.
+-  CHAR_UPPERCASE_A: 65, /* A */
+-  CHAR_LOWERCASE_A: 97, /* a */
+-  CHAR_UPPERCASE_Z: 90, /* Z */
+-  CHAR_LOWERCASE_Z: 122, /* z */
++export const CHAR_UPPERCASE_A = 65; /* A */
++export const CHAR_LOWERCASE_A = 97; /* a */
++export const CHAR_UPPERCASE_Z = 90; /* Z */
++export const CHAR_LOWERCASE_Z = 122; /* z */
+ 
+-  CHAR_LEFT_PARENTHESES: 40, /* ( */
+-  CHAR_RIGHT_PARENTHESES: 41, /* ) */
++export const CHAR_LEFT_PARENTHESES = 40; /* ( */
++export const CHAR_RIGHT_PARENTHESES = 41; /* ) */
+ 
+-  CHAR_ASTERISK: 42, /* * */
++export const CHAR_ASTERISK = 42; /* * */
+ 
+   // Non-alphabetic chars.
+-  CHAR_AMPERSAND: 38, /* & */
+-  CHAR_AT: 64, /* @ */
+-  CHAR_BACKWARD_SLASH: 92, /* \ */
+-  CHAR_CARRIAGE_RETURN: 13, /* \r */
+-  CHAR_CIRCUMFLEX_ACCENT: 94, /* ^ */
+-  CHAR_COLON: 58, /* : */
+-  CHAR_COMMA: 44, /* , */
+-  CHAR_DOT: 46, /* . */
+-  CHAR_DOUBLE_QUOTE: 34, /* " */
+-  CHAR_EQUAL: 61, /* = */
+-  CHAR_EXCLAMATION_MARK: 33, /* ! */
+-  CHAR_FORM_FEED: 12, /* \f */
+-  CHAR_FORWARD_SLASH: 47, /* / */
+-  CHAR_GRAVE_ACCENT: 96, /* ` */
+-  CHAR_HASH: 35, /* # */
+-  CHAR_HYPHEN_MINUS: 45, /* - */
+-  CHAR_LEFT_ANGLE_BRACKET: 60, /* < */
+-  CHAR_LEFT_CURLY_BRACE: 123, /* { */
+-  CHAR_LEFT_SQUARE_BRACKET: 91, /* [ */
+-  CHAR_LINE_FEED: 10, /* \n */
+-  CHAR_NO_BREAK_SPACE: 160, /* \u00A0 */
+-  CHAR_PERCENT: 37, /* % */
+-  CHAR_PLUS: 43, /* + */
+-  CHAR_QUESTION_MARK: 63, /* ? */
+-  CHAR_RIGHT_ANGLE_BRACKET: 62, /* > */
+-  CHAR_RIGHT_CURLY_BRACE: 125, /* } */
+-  CHAR_RIGHT_SQUARE_BRACKET: 93, /* ] */
+-  CHAR_SEMICOLON: 59, /* ; */
+-  CHAR_SINGLE_QUOTE: 39, /* ' */
+-  CHAR_SPACE: 32, /*   */
+-  CHAR_TAB: 9, /* \t */
+-  CHAR_UNDERSCORE: 95, /* _ */
+-  CHAR_VERTICAL_LINE: 124, /* | */
+-  CHAR_ZERO_WIDTH_NOBREAK_SPACE: 65279, /* \uFEFF */
++export const CHAR_AMPERSAND = 38; /* & */
++export const CHAR_AT = 64; /* @ */
++export const CHAR_BACKWARD_SLASH = 92; /* \ */
++export const CHAR_CARRIAGE_RETURN = 13; /* \r */
++export const CHAR_CIRCUMFLEX_ACCENT = 94; /* ^ */
++export const CHAR_COLON = 58; /* : */
++export const CHAR_COMMA = 44; /* , */
++export const CHAR_DOT = 46; /* . */
++export const CHAR_DOUBLE_QUOTE = 34; /* " */
++export const CHAR_EQUAL = 61; /* = */
++export const CHAR_EXCLAMATION_MARK = 33; /* ! */
++export const CHAR_FORM_FEED = 12; /* \f */
++export const CHAR_FORWARD_SLASH = 47; /* / */
++export const CHAR_GRAVE_ACCENT = 96; /* ` */
++export const CHAR_HASH = 35; /* # */
++export const CHAR_HYPHEN_MINUS = 45; /* - */
++export const CHAR_LEFT_ANGLE_BRACKET = 60; /* < */
++export const CHAR_LEFT_CURLY_BRACE = 123; /* { */
++export const CHAR_LEFT_SQUARE_BRACKET = 91; /* [ */
++export const CHAR_LINE_FEED = 10; /* \n */
++export const CHAR_NO_BREAK_SPACE = 160; /* \u00A0 */
++export const CHAR_PERCENT = 37; /* % */
++export const CHAR_PLUS = 43; /* + */
++export const CHAR_QUESTION_MARK = 63; /* ? */
++export const CHAR_RIGHT_ANGLE_BRACKET = 62; /* > */
++export const CHAR_RIGHT_CURLY_BRACE = 125; /* } */
++export const CHAR_RIGHT_SQUARE_BRACKET = 93; /* ] */
++export const CHAR_SEMICOLON = 59; /* ; */
++export const CHAR_SINGLE_QUOTE = 39; /* ' */
++export const CHAR_SPACE = 32; /*   */
++export const CHAR_TAB = 9; /* \t */
++export const CHAR_UNDERSCORE = 95; /* _ */
++export const CHAR_VERTICAL_LINE = 124; /* | */
++export const CHAR_ZERO_WIDTH_NOBREAK_SPACE = 65279; /* \uFEFF */
+ 
+   /**
+    * Create EXTGLOB_CHARS
+    */
+ 
+-  extglobChars(chars) {
++export function extglobChars(chars) {
+     return {
+       '!': { type: 'negate', open: '(?:(?!(?:', close: `))${chars.STAR})` },
+       '?': { type: 'qmark', open: '(?:', close: ')?' },
+@@ -167,13 +166,12 @@ module.exports = {
+       '*': { type: 'star', open: '(?:', close: ')*' },
+       '@': { type: 'at', open: '(?:', close: ')' }
+     };
+-  },
++  }
+ 
+   /**
+    * Create GLOB_CHARS
+    */
+ 
+-  globChars(win32) {
++export function globChars(win32) {
+     return win32 === true ? WINDOWS_CHARS : POSIX_CHARS;
+   }
+-};
+diff --git a/lib/parse.js b/lib/parse.js
+index 8fd8ff499d182f05ffb9aaa342f5ed7541f3d89e..eba11ddff805888de6f409009416630374478a6f 100644
+--- a/lib/parse.js
++++ b/lib/parse.js
+@@ -1,19 +1,19 @@
+ 'use strict';
+ 
+-const constants = require('./constants');
+-const utils = require('./utils');
++import * as constants from './constants.js';
++import * as utils from './utils.js';
+ 
+ /**
+  * Constants
+  */
+ 
+-const {
++import {
+   MAX_LENGTH,
+   POSIX_REGEX_SOURCE,
+   REGEX_NON_SPECIAL_CHARS,
+   REGEX_SPECIAL_CHARS_BACKREF,
+   REPLACEMENTS
+-} = constants;
++} from './constants.js';
+ 
+ /**
+  * Helpers
+@@ -1082,4 +1082,4 @@ parse.fastpaths = (input, options) => {
+   return source;
+ };
+ 
+-module.exports = parse;
++export default parse;
+diff --git a/lib/picomatch.js b/lib/picomatch.js
+index d0ebd9f163cf240a00998dec9ed69523d1405b4d..9716d4f61360c73b8c4712831d045e047347f450 100644
+--- a/lib/picomatch.js
++++ b/lib/picomatch.js
+@@ -1,9 +1,9 @@
+ 'use strict';
+ 
+-const scan = require('./scan');
+-const parse = require('./parse');
+-const utils = require('./utils');
+-const constants = require('./constants');
++import scan from './scan.js';
++import parse from './parse.js';
++import * as utils from './utils.js';
++import * as constants from './constants.js';
+ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
+ 
+ /**
+@@ -338,4 +338,4 @@ picomatch.constants = constants;
+  * Expose "picomatch"
+  */
+ 
+-module.exports = picomatch;
++export default picomatch;
+diff --git a/lib/scan.js b/lib/scan.js
+index e59cd7a1357b184b0c70409b161fcf0ce5433af1..2bc92d8aadeecbe11db5620a3c6b84fd5dffbd15 100644
+--- a/lib/scan.js
++++ b/lib/scan.js
+@@ -1,7 +1,7 @@
+ 'use strict';
+ 
+-const utils = require('./utils');
+-const {
++import * as utils from './utils.js';
++import {
+   CHAR_ASTERISK,             /* * */
+   CHAR_AT,                   /* @ */
+   CHAR_BACKWARD_SLASH,       /* \ */
+@@ -17,7 +17,7 @@ const {
+   CHAR_RIGHT_CURLY_BRACE,    /* } */
+   CHAR_RIGHT_PARENTHESES,    /* ) */
+   CHAR_RIGHT_SQUARE_BRACKET  /* ] */
+-} = require('./constants');
++} from './constants.js';
+ 
+ const isPathSeparator = code => {
+   return code === CHAR_FORWARD_SLASH || code === CHAR_BACKWARD_SLASH;
+@@ -388,4 +388,4 @@ const scan = (input, options) => {
+   return state;
+ };
+ 
+-module.exports = scan;
++export default scan;
+diff --git a/lib/utils.js b/lib/utils.js
+index 9c97cae222ca82d7fc6fa29f2770212e0270bc03..ab0cffeb94fa0cb0745ec99e1490add415c0fe64 100644
+--- a/lib/utils.js
++++ b/lib/utils.js
+@@ -1,20 +1,20 @@
+-/*global navigator*/
+ 'use strict';
+ 
+-const {
++import {
+   REGEX_BACKSLASH,
+   REGEX_REMOVE_BACKSLASH,
+   REGEX_SPECIAL_CHARS,
+   REGEX_SPECIAL_CHARS_GLOBAL
+-} = require('./constants');
++} from './constants.js';
+ 
+-exports.isObject = val => val !== null && typeof val === 'object' && !Array.isArray(val);
+-exports.hasRegexChars = str => REGEX_SPECIAL_CHARS.test(str);
+-exports.isRegexChar = str => str.length === 1 && exports.hasRegexChars(str);
+-exports.escapeRegex = str => str.replace(REGEX_SPECIAL_CHARS_GLOBAL, '\\$1');
+-exports.toPosixSlashes = str => str.replace(REGEX_BACKSLASH, '/');
++export const isObject = val => val !== null && typeof val === 'object' && !Array.isArray(val);
++export const hasRegexChars = str => REGEX_SPECIAL_CHARS.test(str);
++export const isRegexChar = str => str.length === 1 && hasRegexChars(str);
++export const escapeRegex = str => str.replace(REGEX_SPECIAL_CHARS_GLOBAL, '\\$1');
++export const toPosixSlashes = str => str.replace(REGEX_BACKSLASH, '/');
+ 
+-exports.isWindows = () => {
++/*global navigator*/
++export const isWindows = () => {
+   if (typeof navigator !== 'undefined' && navigator.platform) {
+     const platform = navigator.platform.toLowerCase();
+     return platform === 'win32' || platform === 'windows';
+@@ -27,20 +27,20 @@ exports.isWindows = () => {
+   return false;
+ };
+ 
+-exports.removeBackslashes = str => {
++export const removeBackslashes = str => {
+   return str.replace(REGEX_REMOVE_BACKSLASH, match => {
+     return match === '\\' ? '' : match;
+   });
+ };
+ 
+-exports.escapeLast = (input, char, lastIdx) => {
++export const escapeLast = (input, char, lastIdx) => {
+   const idx = input.lastIndexOf(char, lastIdx);
+   if (idx === -1) return input;
+-  if (input[idx - 1] === '\\') return exports.escapeLast(input, char, idx - 1);
++  if (input[idx - 1] === '\\') return escapeLast(input, char, idx - 1);
+   return `${input.slice(0, idx)}\\${input.slice(idx)}`;
+ };
+ 
+-exports.removePrefix = (input, state = {}) => {
++export const removePrefix = (input, state = {}) => {
+   let output = input;
+   if (output.startsWith('./')) {
+     output = output.slice(2);
+@@ -49,7 +49,7 @@ exports.removePrefix = (input, state = {}) => {
+   return output;
+ };
+ 
+-exports.wrapOutput = (input, state = {}, options = {}) => {
++export const wrapOutput = (input, state = {}, options = {}) => {
+   const prepend = options.contains ? '' : '^';
+   const append = options.contains ? '' : '$';
+ 
+@@ -60,7 +60,7 @@ exports.wrapOutput = (input, state = {}, options = {}) => {
+   return output;
+ };
+ 
+-exports.basename = (path, { windows } = {}) => {
++export const basename = (path, { windows } = {}) => {
+   const segs = path.split(windows ? /[\\/]/ : '/');
+   const last = segs[segs.length - 1];
+ 
+diff --git a/package.json b/package.json
+index 703a83dcd06611706b5e579b45f0a90e4ccab242..558fbf6e6bceff724de18aabcf06f3333846f661 100644
+--- a/package.json
++++ b/package.json
+@@ -20,7 +20,20 @@
+   "engines": {
+     "node": ">=12"
+   },
++  "type": "module",
++  "exports": {
++    ".": {
++      "require": "./index.cjs",
++      "default": "./index.js"
++    },
++    "./posix": {
++      "require": "./posix.cjs",
++      "default": "./lib/picomatch.js"
++    },
++    "./package.json": "./package.json"
++  },
+   "scripts": {
++    "build": "rollup -i index.js -o picomatch.js -f cjs --generatedCode es2015 --interop esModule --no-esModule --no-freeze --no-generatedCode.symbols",
+     "lint": "eslint --cache --cache-location node_modules/.cache/.eslintcache --report-unused-disable-directives --ignore-path .gitignore .",
+     "mocha": "mocha --reporter dot",
+     "test": "npm run lint && npm run mocha",
+diff --git a/posix.js b/posix.js
+deleted file mode 100644
+index d2f2bc59d0ac7c40b35c574c45bcedbf26263d75..0000000000000000000000000000000000000000
+--- a/posix.js
++++ /dev/null
+@@ -1,3 +0,0 @@
+-'use strict';
+-
+-module.exports = require('./lib/picomatch');
+diff --git a/posix.cjs b/posix.cjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..b2976777c454376f12cd8bd18c0257ecf3f9f1d1
+--- /dev/null
++++ b/posix.cjs
+@@ -0,0 +1,3 @@
++'use strict';
++
++module.exports = require('./lib/picomatch.js').default;

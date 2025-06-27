@@ -1,21 +1,35 @@
 'use strict';
 
-const { dirname, join, resolve, sep } = require('path');
-const { copyFile, mkdir, readFile, writeFile } = require('fs').promises;
-const { glob } = require('tinyglobby');
+const { dirname, join, resolve, sep } = require('path'),
+  { copyFile, mkdir, readFile, writeFile } = require('fs').promises;
+let glob;
+try {
+  glob = require('tinyglobby').glob;
+} catch (_) {
+  glob = require('./vendor/tinyglobby').glob;
+}
 
+/** @param {CopyPattern} _opt */
 const transformFile = async ({ from, to, transform }) => {
   let content = await readFile(from);
   content = await transform(content, from);
   await writeFile(to, content);
 };
 
-/** @param {string} path */
+/**
+ * @param {string} path
+ * @returns {boolean}
+ */
 const isDirPath = (path) => {
   const lastChar = path[path.length - 1];
   return lastChar === '/' || lastChar === sep;
 };
 
+/**
+ * @param {CopyPattern[]} patterns
+ * @param {(CopyOptions|{warn: Function})} _opts
+ * @returns {CopyPattern[]}
+ */
 const buildCopyList = async (patterns, { root, outDir, warn }) => {
   const entries = await Promise.all(
     patterns.map((copy) =>
@@ -59,7 +73,11 @@ const tryMakeDir = async (dir) => {
   }
 };
 
-/** @returns {string[]} */
+/**
+ * @param {CopyPattern[]} copyList
+ * @param {(CopyOptions|{log: Function})} opts
+ * @returns {string[]}
+ */
 const collectOutDirs = (copyList, opts) => {
   const dirs = [...new Set(copyList.map(({ to }) => dirname(to)))];
   dirs.sort((a, b) => a.length - b.length || a.localeCompare(b));
@@ -75,7 +93,11 @@ const collectOutDirs = (copyList, opts) => {
   return dirs.filter(Boolean);
 };
 
-/** @returns {import('vite').Plugin} */
+/**
+ * @param {(CopyPattern|CopyPattern[])} patterns
+ * @param {CopyOptions} [options]
+ * @returns {import('vite').Plugin}
+ */
 module.exports = (patterns, options = {}) => {
   const opts = { root: options.root || process.cwd(), outDir: options.outDir || '' };
   patterns = [].concat(patterns);

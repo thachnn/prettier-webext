@@ -1,10 +1,11 @@
 {
   "name": "@thachnn/vite-plugin-copy",
   "version": "1.0.0",
-  "description": "Vite plugin to copy files during build",
+  "description": "Vite/rollup plugin to copy files during build",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
+    "build": "tsc --newLine lf --noCheck --noEmitHelpers --outDir es -t es2019 -m esnext -d src/**/*.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,9 +15,15 @@
   },
   "keywords": [
     "vite",
+    "vite-plugin",
+    "rollup",
+    "rollup-plugin",
     "plugin",
     "glob",
+    "globby",
+    "tinyglobby",
     "copy",
+    "transform",
     "files"
   ],
   "author": "Thach Nguyen (https://github.com/thachnn)",
@@ -28,10 +35,43 @@
   "engines": {
     "node": ">= 12.0.0"
   },
-  "dependencies": {
+  "optionalDependencies": {
     "tinyglobby": "^0.2.10"
   },
-  "bundledDependencies": [
-    "tinyglobby"
-  ]
+  "devDependencies": {
+    "@types/node": "12"
+  },
+  "prettier": {
+    "overrides": [
+      {
+        "files": "vendor/pico*.js",
+        "options": {
+          "arrowParens": "avoid"
+        }
+      },
+      {
+        "files": "vendor/pico*.ts",
+        "options": {
+          "tabWidth": 4,
+          "singleQuote": false,
+          "printWidth": 110
+        }
+      },
+      {
+        "files": "vendor/fdir.*",
+        "options": {
+          "singleQuote": false,
+          "trailingComma": "es5",
+          "printWidth": 80
+        }
+      },
+      {
+        "files": "vendor/{tiny*.*,pico*.js}",
+        "options": {
+          "trailingComma": "none",
+          "printWidth": 120
+        }
+      }
+    ]
+  }
 }

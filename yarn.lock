@@ -348,7 +348,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@thachnn/vite-plugin-copy@workspace:packages/vite-plugin-copy"
   dependencies:
+    "@types/node": 12
     tinyglobby: ^0.2.10
+  dependenciesMeta:
+    tinyglobby:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -356,6 +360,13 @@ __metadata:
   version: 1.0.7
   resolution: "@types/estree@npm:1.0.7"
   checksum: d9312b7075bdd08f3c9e1bb477102f5458aaa42a8eec31a169481ce314ca99ac716645cff4fca81ea65a2294b0276a0de63159d1baca0f8e7b5050a92de950ad
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:12":
+  version: 12.20.55
+  resolution: "@types/node@npm:12.20.55"
+  checksum: e4f86785f4092706e0d3b0edff8dca5a13b45627e4b36700acd8dfe6ad53db71928c8dee914d4276c7fd3b6ccd829aa919811c9eb708a2c8e4c6eb3701178c37
   languageName: node
   linkType: hard
 
@@ -671,10 +682,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^4.0.2":
+"picomatch@npm:4.0.2":
   version: 4.0.2
   resolution: "picomatch@npm:4.0.2"
   checksum: a7a5188c954f82c6585720e9143297ccd0e35ad8072231608086ca950bee672d51b0ef676254af0788205e59bd4e4deb4e7708769226bed725bf13370a7d1464
+  languageName: node
+  linkType: hard
+
+"picomatch@patch:picomatch@4.0.2#./.yarn/patches/picomatch-4.0.2-e3765597f8.patch::locator=prettier-webext%40workspace%3A.":
+  version: 4.0.2
+  resolution: "picomatch@patch:picomatch@npm%3A4.0.2#./.yarn/patches/picomatch-4.0.2-e3765597f8.patch::version=4.0.2&hash=dad87d&locator=prettier-webext%40workspace%3A."
+  checksum: 51bb16c59a37bbca6a7343859c6688fd228c92ed65cbacba04f3b0842344357f8f07a24ade76bb721d4634e924691e7b0e7c8c2ca8554f5606f85ff3272fd34f
   languageName: node
   linkType: hard
 
@@ -810,7 +828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^6.3.2":
+"vite@npm:6.3.5":
   version: 6.3.5
   resolution: "vite@npm:6.3.5"
   dependencies:
@@ -862,6 +880,61 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: b7f1ebaae483090441f17ca09ea2c9b803688d2a2ed9860fbd8b72271918776ea3ceca643e807a5ee00628d65b79656d32529a4b8dd388aa33e41bc3f38732d0
+  languageName: node
+  linkType: hard
+
+"vite@patch:vite@6.3.5#./.yarn/patches/vite-6.3.5-244c1b4d55.patch::locator=prettier-webext%40workspace%3A.":
+  version: 6.3.5
+  resolution: "vite@patch:vite@npm%3A6.3.5#./.yarn/patches/vite-6.3.5-244c1b4d55.patch::version=6.3.5&hash=db0c16&locator=prettier-webext%40workspace%3A."
+  dependencies:
+    esbuild: ^0.25.0
+    fdir: ^6.4.4
+    fsevents: ~2.3.3
+    picomatch: ^4.0.2
+    postcss: ^8.5.3
+    rollup: ^4.34.9
+    tinyglobby: ^0.2.13
+  peerDependencies:
+    "@types/node": ^18.0.0 || ^20.0.0 || >=22.0.0
+    jiti: ">=1.21.0"
+    less: "*"
+    lightningcss: ^1.21.0
+    sass: "*"
+    sass-embedded: "*"
+    stylus: "*"
+    sugarss: "*"
+    terser: ^5.16.0
+    tsx: ^4.8.1
+    yaml: ^2.4.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    "@types/node":
+      optional: true
+    jiti:
+      optional: true
+    less:
+      optional: true
+    lightningcss:
+      optional: true
+    sass:
+      optional: true
+    sass-embedded:
+      optional: true
+    stylus:
+      optional: true
+    sugarss:
+      optional: true
+    terser:
+      optional: true
+    tsx:
+      optional: true
+    yaml:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: 8785368f2e327366bca7eebf06a5f3d2a35c4d87d1ef1975d4ae0ddb4183f78290fc3e5f4c04572ef1b8eff453a3b0d95c4aa29a1a3ef77021285c7569740596
   languageName: node
   linkType: hard
 

@@ -1,0 +1,31 @@
+diff --git a/dist/node/chunks/dep-DBxKXgDP.js b/dist/node/chunks/dep-DBxKXgDP.js
+index 2cd82a2f105df2ac39d49cc8c8f787325d882f81..6231b1782986d0cd3d9ef98c719effe763b82d18 100644
+--- a/dist/node/chunks/dep-DBxKXgDP.js
++++ b/dist/node/chunks/dep-DBxKXgDP.js
+@@ -13987,7 +13987,7 @@ async function transformGlobImport(code, id, root, resolveId, restoreQueryExtens
+         } else if (onlyValues) {
+           replacement = `[${objectProps.join(",")}${lineBreaks}]`;
+         } else {
+-          replacement = `/* #__PURE__ */ Object.assign({${objectProps.join(
++          replacement = `/* #__PURE__ */ Object.freeze({${objectProps.join(
+             ","
+           )}${lineBreaks}})`;
+         }
+@@ -37070,7 +37070,7 @@ ${serializeTags(tags)}`);
+ const unaryTags = /* @__PURE__ */ new Set(["link", "meta", "base"]);
+ function serializeTag({ tag, attrs, children }, indent = "") {
+   if (unaryTags.has(tag)) {
+-    return `<${tag}${serializeAttrs(attrs)}>`;
++    return `<${tag}${serializeAttrs(attrs)} />`;
+   } else {
+     return `<${tag}${serializeAttrs(attrs)}>${serializeTags(
+       children,
+@@ -37091,7 +37091,7 @@ function serializeAttrs(attrs) {
+   let res = "";
+   for (const key in attrs) {
+     if (typeof attrs[key] === "boolean") {
+-      res += attrs[key] ? ` ${key}` : ``;
++      res += attrs[key] ? ` ${key}=""` : ``;
+     } else {
+       res += ` ${key}="${escapeHtml$2(attrs[key])}"`;
+     }
