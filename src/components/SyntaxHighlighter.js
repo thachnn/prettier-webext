@@ -46,11 +46,11 @@ class VNodeTreeEmitter {
   }
 
   /**
-   * @param {(Emitter|this)} other
+   * @param {Emitter} other
    * @param {string} name
    */
   __addSublanguage(other, name) {
-    const nodes = other.root.children;
+    const nodes = [].concat(other.toHTML());
     name
       ? this._add(h('span', { class: ['language-' + name] }, nodes)) //
       : this._add(...nodes);

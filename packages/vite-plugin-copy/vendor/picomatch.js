@@ -98,7 +98,7 @@ const REGEX_NON_SPECIAL_CHARS = /^[^@![\].,$*+?^{}()|\\/]+/;
 const REGEX_SPECIAL_CHARS = /[-*+?.^${}(|)[\]]/;
 const REGEX_SPECIAL_CHARS_BACKREF = /(\\?)((\W)(\3*))/g;
 const REGEX_SPECIAL_CHARS_GLOBAL = /([-*+?.^${}(|)[\]])/g;
-const REGEX_REMOVE_BACKSLASH = /(?:\[.*?[^\\]\]|\\(?=.))/g;
+const REGEX_REMOVE_BACKSLASH = /\[.*?[^\\]]|\\(?=.)/g;
 
 // Replace globs with equivalent patterns to reduce parsing time.
 const REPLACEMENTS = {
@@ -180,6 +180,7 @@ function globChars(win32) {
   return win32 === true ? WINDOWS_CHARS : POSIX_CHARS;
 }
 
+// noinspection JSUnusedGlobalSymbols
 const constants = {
   __proto__: null,
   MAX_LENGTH,
@@ -320,7 +321,7 @@ const depth = token => {
  * console.log(pm.scan('foo/bar/*.js'));
  * { isGlob: true, input: 'foo/bar/*.js', base: 'foo/bar', glob: '*.js' }
  * ```
- * @param {String} `str`
+ * @param {String} `input`
  * @param {Object} `options`
  * @return {Object} Returns an object with tokens and regex source string.
  * @api public
@@ -1459,6 +1460,7 @@ const parse = (input, options) => {
       continue;
     }
 
+    /** @type {string} */
     let rest = remaining();
     if (opts.noextglob !== true && /^\([^?]/.test(rest)) {
       extglobOpen('star', value);
@@ -1754,23 +1756,23 @@ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
  * console.log(isMatch('a.b')); //=> true
  * ```
  * @name picomatch
- * @param {String|Array} `globs` One or more glob patterns.
+ * @param {(string|string[]|Object.<string, *>)} `glob` One or more glob patterns.
  * @param {Object=} `options`
- * @return {Function=} Returns a matcher function.
+ * @param {boolean} [returnState]
+ * @return {Function} Returns a matcher function.
  * @api public
  */
 
 const picomatch = (glob, options, returnState = false) => {
   if (Array.isArray(glob)) {
     const fns = glob.map(input => picomatch(input, options, returnState));
-    const arrayMatcher = str => {
+    return /*arrayMatcher =*/ str => {
       for (const isMatch of fns) {
         const state = isMatch(str);
         if (state) return state;
       }
       return false;
     };
-    return arrayMatcher;
   }
 
   const isState = isObject(glob) && glob.tokens && glob.input;
@@ -2055,6 +2057,7 @@ picomatch.toRegex = (source, options) => {
     return new RegExp(source, opts.flags || (opts.nocase ? 'i' : ''));
   } catch (err) {
     if (options && options.debug === true) throw err;
+    // noinspection RegExpUnexpectedAnchor
     return /$^/;
   }
 };

@@ -53,7 +53,7 @@ declare const POSIX_REGEX_SOURCE: {
     xdigit: "A-Fa-f0-9";
 };
 
-declare const constants: {
+export declare const constants: {
     MAX_LENGTH: number;
     POSIX_REGEX_SOURCE: typeof POSIX_REGEX_SOURCE;
 
@@ -129,7 +129,7 @@ declare const constants: {
     globChars<T extends boolean>(win32: T): T extends true ? typeof WINDOWS_CHARS : typeof POSIX_CHARS;
 };
 
-declare function parse(input: string, options: { maxLength?: number | undefined }): parse.ParseState;
+//declare function parse(input: string, options: { maxLength?: number | undefined }): parse.ParseState;
 
 declare namespace parse {
     interface Token {
@@ -226,6 +226,8 @@ declare namespace scan {
  * console.log(isMatch('a.b')); //=> true
  * ```
  * @param glob One or more glob patterns.
+ * @param [options]
+ * @param [returnState]
  * @return Returns a matcher function.
  * @api public
  */
@@ -347,7 +349,7 @@ declare namespace picomatch {
         nocase?: boolean | undefined;
         /**
          * @deprecated use `nounique` instead.
-         * This option will be removed in a future major release. By default duplicates are removed.
+         * This option will be removed in a future major release. By default, duplicates are removed.
          * Disable uniquification by setting this option to false.
          */
         nodupes?: boolean | undefined;
@@ -380,7 +382,7 @@ declare namespace picomatch {
          */
         onMatch?: ((result: Result) => void) | undefined;
         /**
-         * Function to be called on all items, regardless of whether or not they are matched or ignored.
+         * Function to be called on all items, regardless of whether they are matched or ignored.
          */
         onResult?: ((result: Result) => void) | undefined;
         /**
@@ -435,7 +437,7 @@ declare namespace picomatch {
         options?: { maxLength?: number | undefined },
     ): parse.ParseState | parse.ParseState[];
 
-    const scan: typeof scan;
+    const scan: typeof globalThis.scan;
 
     function compileRe(
         state: parse.ParseState,
@@ -455,7 +457,7 @@ declare namespace picomatch {
 
     function toRegex(source: string | RegExp, options?: ToRegexOptions): RegExp;
 
-    const constants: typeof constants;
+    const constants: typeof globalThis.constants;
 }
 
 export = picomatch;

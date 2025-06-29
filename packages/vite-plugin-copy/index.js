@@ -2,6 +2,7 @@
 
 const { dirname, join, resolve, sep } = require('path'),
   { copyFile, mkdir, readFile, writeFile } = require('fs').promises;
+/** @type {import('tinyglobby').glob} */
 let glob;
 try {
   glob = require('tinyglobby').glob;
@@ -9,17 +10,17 @@ try {
   glob = require('./vendor/tinyglobby').glob;
 }
 
-/** @param {CopyPattern} _opt */
+/**
+ * @param {CopyPattern} _opt
+ * @param {string} _opt.to
+ */
 const transformFile = async ({ from, to, transform }) => {
   let content = await readFile(from);
   content = await transform(content, from);
   await writeFile(to, content);
 };
 
-/**
- * @param {string} path
- * @returns {boolean}
- */
+/** @param {string} path */
 const isDirPath = (path) => {
   const lastChar = path[path.length - 1];
   return lastChar === '/' || lastChar === sep;
@@ -27,8 +28,7 @@ const isDirPath = (path) => {
 
 /**
  * @param {CopyPattern[]} patterns
- * @param {(CopyOptions|{warn: Function})} _opts
- * @returns {CopyPattern[]}
+ * @param {(CopyOptions & {warn: Function})} _opts
  */
 const buildCopyList = async (patterns, { root, outDir, warn }) => {
   const entries = await Promise.all(
@@ -37,6 +37,7 @@ const buildCopyList = async (patterns, { root, outDir, warn }) => {
     ),
   );
   outDir = join(root, outDir);
+  /** @type {Array<(CopyPattern & {to: string})>} */
   const copyList = [];
 
   for (let sources, i = patterns.length - 1; i >= 0; i--) {
@@ -65,6 +66,7 @@ const buildCopyList = async (patterns, { root, outDir, warn }) => {
   return copyList;
 };
 
+/** @param {string} dir */
 const tryMakeDir = async (dir) => {
   try {
     await mkdir(dir, { recursive: true });
@@ -74,9 +76,8 @@ const tryMakeDir = async (dir) => {
 };
 
 /**
- * @param {CopyPattern[]} copyList
- * @param {(CopyOptions|{log: Function})} opts
- * @returns {string[]}
+ * @param {Array<{to: string}>} copyList
+ * @param {(CopyOptions & {log: Function})} opts
  */
 const collectOutDirs = (copyList, opts) => {
   const dirs = [...new Set(copyList.map(({ to }) => dirname(to)))];
@@ -95,10 +96,11 @@ const collectOutDirs = (copyList, opts) => {
 
 /**
  * @param {(CopyPattern|CopyPattern[])} patterns
- * @param {CopyOptions} [options]
+ * @param {(CopyOptions & {name?: string})} [options]
  * @returns {import('vite').Plugin}
  */
 module.exports = (patterns, options = {}) => {
+  /** @type {(CopyOptions & {log?: Function, warn?: Function})} */
   const opts = { root: options.root || process.cwd(), outDir: options.outDir || '' };
   patterns = [].concat(patterns);
 

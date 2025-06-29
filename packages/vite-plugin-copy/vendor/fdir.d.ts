@@ -1,4 +1,5 @@
-/// <reference types="node" />
+// noinspection JSUnusedGlobalSymbols
+
 import type picomatch from "./picomatch";
 
 type OnQueueEmptyCallback = (error: Error | null, output: WalkerState) => void;

@@ -39,9 +39,9 @@ function normalizePath(path, options) {
 
   if (path === ".") return "";
 
-  const needsSeperator = path[path.length - 1] !== pathSeparator;
+  const needsSeparator = path[path.length - 1] !== pathSeparator;
   return convertSlashes(
-    needsSeperator ? path + pathSeparator : path,
+    needsSeparator ? path + pathSeparator : path,
     pathSeparator
   );
 }
@@ -398,6 +398,7 @@ class Walker {
       queue: new Queue((error, state) =>
         this.callbackInvoker(state, error, callback)
       ),
+      /** @type {Map<string, string>} */
       symlinks: new Map(),
       visited: [""].slice(0, 0),
     };
@@ -523,6 +524,7 @@ function sync(root, options) {
   return walker.start();
 }
 
+// noinspection JSUnusedGlobalSymbols
 class APIBuilder {
   constructor(root, options) {
     this.root = root;
@@ -551,6 +553,7 @@ try {
   // do nothing
 }
 
+// noinspection JSUnusedGlobalSymbols
 class Builder {
   constructor(options) {
     this.globCache = {};

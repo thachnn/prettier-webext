@@ -391,7 +391,7 @@ function crawl(options, cwd, sync) {
   return sync ? formatPaths(api.sync(), cwd, root) : api.withPromise().then((paths) => formatPaths(paths, cwd, root));
 }
 
-async function glob(patternsOrOptions, options) {
+function _glob(patternsOrOptions, options, sync) {
   if (patternsOrOptions && options != null && options.patterns) {
     throw new Error('Cannot pass patterns as both an argument and an option');
   }
@@ -402,21 +402,16 @@ async function glob(patternsOrOptions, options) {
       : patternsOrOptions;
   const cwd = opts.cwd ? path.resolve(opts.cwd).replace(BACKSLASHES, '/') : process.cwd().replace(BACKSLASHES, '/');
 
-  return crawl(opts, cwd, false);
+  return crawl(opts, cwd, sync);
+}
+
+async function glob(patternsOrOptions, options) {
+  return _glob(patternsOrOptions, options, false);
 }
 
 function globSync(patternsOrOptions, options) {
-  if (patternsOrOptions && options != null && options.patterns) {
-    throw new Error('Cannot pass patterns as both an argument and an option');
-  }
-
-  const opts =
-    Array.isArray(patternsOrOptions) || typeof patternsOrOptions === 'string'
-      ? { ...options, patterns: patternsOrOptions }
-      : patternsOrOptions;
-  const cwd = opts.cwd ? path.resolve(opts.cwd).replace(BACKSLASHES, '/') : process.cwd().replace(BACKSLASHES, '/');
-
-  return crawl(opts, cwd, true);
+  return _glob(patternsOrOptions, options, true);
 }
 
+// noinspection JSUnusedGlobalSymbols
 module.exports = { glob, globSync, convertPathToPattern, escapePath, isDynamicPattern };

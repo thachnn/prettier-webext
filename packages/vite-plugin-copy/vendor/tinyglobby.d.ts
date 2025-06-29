@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 declare const convertPathToPattern: (path: string) => string;
 declare const escapePath: (path: string) => string;
 declare function isDynamicPattern(pattern: string, options?: { caseSensitiveMatch: boolean }): boolean;
