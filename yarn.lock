@@ -594,27 +594,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fdir@npm:6.4.4":
-  version: 6.4.4
-  resolution: "fdir@npm:6.4.4"
+"fdir@thachnn/bundled#fdir-6.4.4":
+  version: 6.4.4-0
+  resolution: "fdir@https://github.com/thachnn/bundled.git#commit=8dc6278a2443cb53a69e7fe891bcdb77c21c4de2"
   peerDependencies:
     picomatch: ^3 || ^4
   peerDependenciesMeta:
     picomatch:
       optional: true
-  checksum: 79043610236579ffbd0647c508b43bd030a2d034a17c43cf96813a00e8e92e51acdb115c6ddecef3b5812cc2692b976155b4f6413e51e3761f1e772fa019a321
-  languageName: node
-  linkType: hard
-
-"fdir@patch:fdir@6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch::locator=prettier-webext%40workspace%3A.":
-  version: 6.4.4
-  resolution: "fdir@patch:fdir@npm%3A6.4.4#./.yarn/patches/fdir-6.4.4-ac98cf8d06.patch::version=6.4.4&hash=a3cf19&locator=prettier-webext%40workspace%3A."
-  peerDependencies:
-    picomatch: ^3 || ^4
-  peerDependenciesMeta:
-    picomatch:
-      optional: true
-  checksum: 19267e50442844598937cbbc249e94d48ba84cf4a26361e6fb9a375a71820d2711061e1e6787569b451156ee04366d8039ade68a47e8c4da37690bdfda4cdc33
+  checksum: 039fb3d92dd8794203f98a2814f66c5394d70e5d624bdf6cadf2bb9af66e4c82c8599f183086b7c90de502f6fa2bcd7cfc4d637c73dc2242715bb7941f2afdd0
   languageName: node
   linkType: hard
 
@@ -644,9 +632,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highlight.js@patch:highlight.js@11.11.1#./.yarn/patches/highlight.js-11.11.1-1afef66f5e.patch::locator=prettier-webext%40workspace%3A.":
+"highlight.js@patch:highlight.js@11.11.1#./.yarn/patches/highlight.js-11.11.1.patch::locator=prettier-webext%40workspace%3A.":
   version: 11.11.1
-  resolution: "highlight.js@patch:highlight.js@npm%3A11.11.1#./.yarn/patches/highlight.js-11.11.1-1afef66f5e.patch::version=11.11.1&hash=dfe57f&locator=prettier-webext%40workspace%3A."
+  resolution: "highlight.js@patch:highlight.js@npm%3A11.11.1#./.yarn/patches/highlight.js-11.11.1.patch::version=11.11.1&hash=dfe57f&locator=prettier-webext%40workspace%3A."
   checksum: 21bb0a7bec935779ef2d31966011e5d6d6defe63bf586a8d6d6181bfa640449f9467e639cbb87a5a8b198761555924382924cd0847e84bdbba2eeb6271a53ecf
   languageName: node
   linkType: hard
@@ -682,17 +670,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:4.0.2":
-  version: 4.0.2
-  resolution: "picomatch@npm:4.0.2"
-  checksum: a7a5188c954f82c6585720e9143297ccd0e35ad8072231608086ca950bee672d51b0ef676254af0788205e59bd4e4deb4e7708769226bed725bf13370a7d1464
-  languageName: node
-  linkType: hard
-
-"picomatch@patch:picomatch@4.0.2#./.yarn/patches/picomatch-4.0.2-e3765597f8.patch::locator=prettier-webext%40workspace%3A.":
-  version: 4.0.2
-  resolution: "picomatch@patch:picomatch@npm%3A4.0.2#./.yarn/patches/picomatch-4.0.2-e3765597f8.patch::version=4.0.2&hash=dad87d&locator=prettier-webext%40workspace%3A."
-  checksum: 51bb16c59a37bbca6a7343859c6688fd228c92ed65cbacba04f3b0842344357f8f07a24ade76bb721d4634e924691e7b0e7c8c2ca8554f5606f85ff3272fd34f
+"picomatch@thachnn/bundled#picomatch-4.0.2":
+  version: 4.0.2-0
+  resolution: "picomatch@https://github.com/thachnn/bundled.git#commit=f9164396ee897a2ebcd142c4cfa978b60b51f7a1"
+  checksum: ca886d48548af3e2708c25a3db1a8c8258f72daa65f8283a3556bb04970d6eb9854837176b30469c4336551c1845f6e42945e131863ecda603ed8bef07b31be3
   languageName: node
   linkType: hard
 
@@ -811,20 +792,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-js@patch:source-map-js@1.2.1#./.yarn/patches/source-map-js-1.2.1-b9a47d7e1a.patch::locator=prettier-webext%40workspace%3A.":
+"source-map-js@patch:source-map-js@1.2.1#./.yarn/patches/source-map-js-1.2.1.patch::locator=prettier-webext%40workspace%3A.":
   version: 1.2.1
-  resolution: "source-map-js@patch:source-map-js@npm%3A1.2.1#./.yarn/patches/source-map-js-1.2.1-b9a47d7e1a.patch::version=1.2.1&hash=3f3b57&locator=prettier-webext%40workspace%3A."
+  resolution: "source-map-js@patch:source-map-js@npm%3A1.2.1#./.yarn/patches/source-map-js-1.2.1.patch::version=1.2.1&hash=3f3b57&locator=prettier-webext%40workspace%3A."
   checksum: 1859aa61e908e43c66a36a4f2e142235648a22530b2f0c3fa5ab64801f6d46b606e3339c32a8cf64a86d7a0f86d8aaca57eca7d43d6bac1d468e1905e6a7b29b
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:^0.2.10, tinyglobby@npm:^0.2.13":
-  version: 0.2.13
-  resolution: "tinyglobby@npm:0.2.13"
+"tinyglobby@thachnn/bundled#tinyglobby-0.2.13":
+  version: 0.2.13-0
+  resolution: "tinyglobby@https://github.com/thachnn/bundled.git#commit=55f910aa60ce426715187d01a2f25a3fe1b64ffa"
   dependencies:
     fdir: ^6.4.4
     picomatch: ^4.0.2
-  checksum: 3a2e87a2518cb3616057b0aa58be4f17771ae78c6890556516ae1e631f8ce4cfee1ba1dcb62fcc54a64e2bdd6c3104f4f3d021e1a3e3f8fb0875bca380b913e5
+  checksum: 5653a51c681869ce34deb55cf9f91e5d45ccda6ad0b138c3dd6a323cee62ab54d1afd5232dcf24292ebb2ff4995abe79ec5ae8e7a8ba911b080baf5ac6e53142
   languageName: node
   linkType: hard
 
@@ -883,9 +864,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@patch:vite@6.3.5#./.yarn/patches/vite-6.3.5-244c1b4d55.patch::locator=prettier-webext%40workspace%3A.":
+"vite@patch:vite@6.3.5#./.yarn/patches/vite-6.3.5.patch::locator=prettier-webext%40workspace%3A.":
   version: 6.3.5
-  resolution: "vite@patch:vite@npm%3A6.3.5#./.yarn/patches/vite-6.3.5-244c1b4d55.patch::version=6.3.5&hash=db0c16&locator=prettier-webext%40workspace%3A."
+  resolution: "vite@patch:vite@npm%3A6.3.5#./.yarn/patches/vite-6.3.5.patch::version=6.3.5&hash=db0c16&locator=prettier-webext%40workspace%3A."
   dependencies:
     esbuild: ^0.25.0
     fdir: ^6.4.4

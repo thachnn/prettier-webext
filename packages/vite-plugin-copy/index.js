@@ -7,7 +7,7 @@ let glob;
 try {
   glob = require('tinyglobby').glob;
 } catch (_) {
-  glob = require('./vendor/tinyglobby').glob;
+  glob = require('./dist/tinyglobby').glob;
 }
 
 /**

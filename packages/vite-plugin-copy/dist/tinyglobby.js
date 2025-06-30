@@ -413,5 +413,4 @@ function globSync(patternsOrOptions, options) {
   return _glob(patternsOrOptions, options, true);
 }
 
-// noinspection JSUnusedGlobalSymbols
 module.exports = { glob, globSync, convertPathToPattern, escapePath, isDynamicPattern };

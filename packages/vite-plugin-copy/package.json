@@ -5,7 +5,6 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "tsc --newLine lf --noCheck --noEmitHelpers --outDir es -t es2019 -m esnext -d src/**/*.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -40,38 +39,5 @@
   },
   "devDependencies": {
     "@types/node": "12"
-  },
-  "prettier": {
-    "overrides": [
-      {
-        "files": "vendor/pico*.js",
-        "options": {
-          "arrowParens": "avoid"
-        }
-      },
-      {
-        "files": "vendor/pico*.ts",
-        "options": {
-          "tabWidth": 4,
-          "singleQuote": false,
-          "printWidth": 110
-        }
-      },
-      {
-        "files": "vendor/fdir.*",
-        "options": {
-          "singleQuote": false,
-          "trailingComma": "es5",
-          "printWidth": 80
-        }
-      },
-      {
-        "files": "vendor/{tiny*.*,pico*.js}",
-        "options": {
-          "trailingComma": "none",
-          "printWidth": 120
-        }
-      }
-    ]
   }
 }

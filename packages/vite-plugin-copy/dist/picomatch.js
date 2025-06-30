@@ -2083,7 +2083,7 @@ const isWindows = () => {
   return false;
 };
 
-function picomatch$(glob, options, returnState = false) {
+function pico(glob, options, returnState = false) {
   // default to os.platform()
   if (options && options.windows == null) {
     // don't mutate the original options object
@@ -2093,6 +2093,6 @@ function picomatch$(glob, options, returnState = false) {
   return picomatch(glob, options, returnState);
 }
 
-Object.assign(picomatch$, picomatch);
+Object.assign(pico, picomatch);
 
-module.exports = picomatch$;
+module.exports = pico;
