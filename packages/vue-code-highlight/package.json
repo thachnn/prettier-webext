@@ -1,0 +1,49 @@
+{
+  "name": "@thachnn/vue-code-highlight",
+  "version": "1.0.0",
+  "description": "Provides syntax highlighting components for use in your Vue.js 3 applications",
+  "main": "index.js",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./lib/*": "./lib/*",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thachnn/prettier-webext.git",
+    "directory": "packages/vue-code-highlight"
+  },
+  "keywords": [
+    "vue",
+    "component",
+    "syntax",
+    "highlighter",
+    "highlighting",
+    "code",
+    "highlight",
+    "virtual",
+    "highlight.js",
+    "prism",
+    "line",
+    "numbers"
+  ],
+  "author": "Thach Nguyen (https://github.com/thachnn)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thachnn/prettier-webext/issues"
+  },
+  "homepage": "https://github.com/thachnn/prettier-webext/blob/main/packages/vue-code-highlight",
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "peerDependencies": {
+    "vue": "3"
+  },
+  "optionalDependencies": {
+    "highlight.js": "^11.9.0"
+  }
+}

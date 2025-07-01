@@ -356,6 +356,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@thachnn/vue-code-highlight@workspace:packages/vue-code-highlight":
+  version: 0.0.0-use.local
+  resolution: "@thachnn/vue-code-highlight@workspace:packages/vue-code-highlight"
+  dependencies:
+    highlight.js: ^11.9.0
+  peerDependencies:
+    vue: 3
+  dependenciesMeta:
+    highlight.js:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@types/estree@npm:1.0.7":
   version: 1.0.7
   resolution: "@types/estree@npm:1.0.7"

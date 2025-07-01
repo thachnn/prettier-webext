@@ -19,7 +19,8 @@
     "test": "node node_modules/prettier/bin/prettier.cjs --cache -c ."
   },
   "workspaces": [
-    "packages/vite-plugin-copy"
+    "packages/vite-plugin-copy",
+    "packages/vue-code-highlight"
   ],
   "dependencies": {
     "highlight.js": "^11.9.0",

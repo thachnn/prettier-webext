@@ -1,0 +1,32 @@
+pre.line-numbers,
+code.line-numbers {
+  position: relative;
+  padding-left: 3.5em;
+  counter-reset: linenumber;
+}
+
+.line-numbers-row {
+  position: absolute;
+  top: 0;
+  left: 1px;
+  box-sizing: border-box;
+  padding: 0.545em 0;
+  min-height: 100%;
+  width: 3.08em;
+  letter-spacing: -0.08em;
+  background: var(--linenumber-bg, #fafafa);
+  border-right: 1px solid var(--linenumber-border, #ddd);
+  user-select: none;
+}
+
+.line-numbers-row > i {
+  font-style: normal;
+  counter-increment: linenumber;
+}
+.line-numbers-row > i::before {
+  content: counter(linenumber);
+  display: block;
+  padding-right: 0.5em;
+  color: var(--linenumber-color, #999);
+  text-align: right;
+}

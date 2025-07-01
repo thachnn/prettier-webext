@@ -1,5 +1,6 @@
 <script>
 import hljs from 'highlight.js/lib/core.js';
+import '@thachnn/vue-code-highlight/lib/LineNumbers.css';
 
 const modules = import.meta.glob(
   '/node_modules/highlight.js/es/languages/{xml,bash,c,cmake,cpp,csharp,css,markdown,dart,delphi,diff,ruby,go,graphql,handlebars,ini,java,javascript,json,kotlin,less,lua,makefile,perl,objectivec,php,php-template,plaintext,python,python-repl,r,rust,scala,scss,shell,sql,swift,yaml,typescript,vbnet,wasm}.js',
@@ -11,12 +12,11 @@ Object.entries(modules).forEach(([fn, mod]) => {
 </script>
 
 <script setup>
-import SyntaxHighlighter from './SyntaxHighlighter.js';
-import AllLineNumbers from './AllLineNumbers.vue';
+import { HighlightJS, LineNumbers } from '@thachnn/vue-code-highlight';
 
 defineProps({
-  code: { type: String, required: true },
-  language: { type: String, required: true },
+  code: { type: String, default: '' }, //
+  language: { type: String, default: 'js' },
 });
 </script>
 
@@ -28,13 +28,24 @@ defineProps({
       contenteditable="true"
       spellcheck="false"
       @beforeinput.prevent
-      ><SyntaxHighlighter :code="code" :language="language" /><br /><AllLineNumbers
+      ><HighlightJS :hljs="hljs" :code="code" :language="language" /><br /><LineNumbers
         :code="code" /></code
   ></pre>
 </template>
 
 <!--suppress CssUnusedSymbol -->
 <style>
+:root {
+  --linenumber-bg: var(--body-bg);
+  --linenumber-border: var(--hr-color);
+  --linenumber-color: #999;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --linenumber-color: #999;
+  }
+}
+
 section pre {
   margin: 0;
   height: 100%;

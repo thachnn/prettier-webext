@@ -27,7 +27,8 @@ watch(
   },
 );
 
-const handleChange = () => emit('change', formDefaults);
+defineExpose({ formDefaults });
+const handleChange = () => emit('change');
 
 const handleReset = () => {
   if (Object.keys(formData.value).some((k) => formData.value[k] !== formDefaults[k])) {
